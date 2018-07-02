@@ -1,0 +1,74 @@
+BIOSConfig 1.0
+;
+;     Originally created by BIOS Configuration Utility
+;     Version: 4.0.15.1
+;     Date="2016/10/06" Time="14:57:46" UTC="2"
+;
+;     Found 213 settings
+;
+Virtualization Technology for Directed I/O (VTd)
+	Disable
+	*Enable
+	Reset to default
+Virtualization Technology for Directed I/O (VTd) Security Level
+	Change
+	*View
+	Hide
+PXE Internal NIC boot
+	Disable
+	*Enable
+PXE Internal IPV4 NIC boot
+	Disable
+	*Enable
+PXE Internal IPV6 NIC boot
+	Disable
+	*Enable
+Virtualization Technology (VTx)
+	Disable
+	*Enable
+	Reset to default
+NumLock on at boot
+	*Disable
+	Enable
+Intel (R) HT Technology
+	Disable
+	*Enable
+LAN/WLAN Switching
+	Disable
+	*Enable
+Wake on LAN
+	Disable
+	Boot to Network
+	*Follow Boot Order
+Reset of TPM from OS
+	Disable
+	*Enable
+OS Management of TPM
+	Disable
+	*Enable
+Activate TPM On Next Boot
+	Disable
+	*Enable
+TPM Device
+	Hidden
+	*Available
+TPM Activation Policy
+	F1 to Boot
+	Allow user to reject
+	*No prompts
+TPM Device Security Level
+	Change
+	*View
+	Hide
+OS Management of TPM Security Level
+	Change
+	*View
+	Hide
+Reset of TPM from OS Security Level
+	Change
+	*View
+	Hide
+TPM Embedded Security Security Level
+	Change
+	*View
+	Hide
