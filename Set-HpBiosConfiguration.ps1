@@ -1,9 +1,51 @@
+<#
+.SYNOPSIS
+    Configure HP-Bios based on computer model.
+.DESCRIPTION
+    This script will configure or convert your legacy BIOS to UEFI based on computer model that is currently running the Task Sequence.
+    See ReadMe for more information.
+.PARAMETER ApprovedExitCodes
+    Specify exit codes that are considered as 'Success', see "BIOS Configuration Utility User's Guide".
+.PARAMETER SetBiosPassword
+    Specify if you want to set BIOS-password during the script execution.
+.PARAMETER DontUseBiosPassword
+    Specify if you don't want to use BIOS-password.
+.PARAMETER ConvertToUefi
+    Specify if you want to convert BIOS to UEFI, the tool will look for file that contains EFI in file name.
+.PARAMETER DebugMode
+    Specify if you want to run tool from Windows, the log path will change to PSScriptRoot.
+.EXAMPLE
+    # Configure BIOS
+    .\Set-HpBiosConfiguration.ps1
+    # Configure BIOS and set BIOS-password
+    .\Set-HpBiosConfiguration.ps1 -SetBiosPassword
+    # Configure Legacy to UEFI
+    .\Set-HpBiosConfiguration.ps1 -ConvertToUefi
+    # Configure BIOS and and don't use an Bios-password
+    .\Set-HpBiosConfiguration.ps1 -DontUseBiosPassword
+.NOTES
+    FileName:   Set-HpBiosConfiguration.ps1
+    Author:     MichalKir
+    Created:    2018-07-02
+    Tested:     WinPE 1803
+    
+    Version history:
+        1.0 (2018-07-02) - Created Set-HpBiosConfiguration.ps1 script
+#>
 [CmdletBinding()]
 param(
     ## Specify what exit codes are considered as success, default: 0, 1, 5, 13, 17 (See HP-documentation for more info)
     [Parameter(Mandatory = $false, HelpMessage = "Specify list of approved exit codes")]
     [ValidateNotNullOrEmpty()]
     [string[]]$ApprovedExitCodes = @(0, 1, 5, 13, 17),
+    ## Specify if you want to convert Legacy to EFI
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to set BIOS-password during BIOS-configuration")]
+    [ValidateNotNullOrEmpty()]
+    [switch]$SetBiosPassword,
+    ## Specify if you want to convert Legacy to EFI
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you are not using BIOS-password")]
+    [ValidateNotNullOrEmpty()]
+    [switch]$DontUseBiosPassword,    
     ## Specify if you want to convert Legacy to EFI
     [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to configure BIOS from legacy to EFI")]
     [ValidateNotNullOrEmpty()]
@@ -26,7 +68,9 @@ begin {
     }
 
     ## Bios password
-    $biosPassword = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosPassword\BiosConfig.bin"
+    if (-not($DontUseBiosPassword)) {
+        $biosPassword = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosPassword\BiosConfig.bin"
+    }
     
     ## Computer model
     $computerModel = (Get-CimInstance -ClassName Win32_ComputerSystem).Model
@@ -35,7 +79,7 @@ begin {
     ## Log path
     if (-not($DebugMode)) {
         $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction Continue
-        $logDirectory = Join-Path -Path $tsEnvironment.Value("_SMSTSLogPath")
+        $logDirectory = $tsEnvironment.Value("_SMSTSLogPath")
     }
     else {
         $logDirectory = $PSScriptRoot
@@ -102,7 +146,31 @@ process {
     if (-not(Test-Path -Path $biosPassword)) {
         Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
     }
-    
+
+    ## Set HP-password
+    if ($SetBiosPassword) {
+        try {
+            ## Create copy of BIOS-password, some config utility versions do remove BIOS-password when used to set bios-password
+            Write-Log -Message "Attempting to create copy of BIOS-password"
+            $biosPasswordPath = Join-Path -Path (Split-Path -Path $biosPassword) -ChildPath 'setPassword.bin'
+            Copy-Item -Path $biosPassword -Destination $biosPasswordPath -ErrorAction Stop > $null
+            try {
+                ## Set password
+                Write-Log -Message "Attempting to set BIOS-password"
+                $processPassword = Start-Process -FilePath $biosTool -ArgumentList "/nspwd:`"$biosPasswordPath`"" `
+                    -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
+                if (($processPassword.ExitCode -eq '10') -or ($processPassword.ExitCode -eq '0')) {
+                    $Global:LASTEXITCODE = 0
+                }
+            }
+            catch {
+                Write-Log -Message "Failed to set HP-Bios password, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+            }
+        }
+        catch {
+            Write-Log -Message "Failed to copy BIOS-password, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+        }
+    }    
     ## Get computer model folder
     foreach ($modelFolder in $computerModelFolders) {
         if ($modelFolder -match $computerModel) {
@@ -118,18 +186,24 @@ process {
                     $biosFile = (Get-ChildItem -Path $modelFolder -Recurse -Filter *.REPSET -Include *EFI* -ErrorAction Stop `
                             | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName                
                 } 
-                try {
+                try {                    
                     ## Configure bios
                     Write-Log -Message "Attempting to configure HP-bios using: $biosFile"
-                    $process = Start-Process -FilePath $biosTool -ArgumentList "/set:`"$biosFile`" /cspwd:`"$biosPassword`"" -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
+                    if (-not($DontUseBiosPassword)) {
+                        $argument = "/set:`"$biosFile`" /cspwd:`"$biosPassword`""
+                    }
+                    else {
+                        "/set:`"$biosFile`""
+                    }
+                    $processBiosConfig = Start-Process -FilePath $biosTool -ArgumentList $argument -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
                     ## Check if exit code is approved
-                    if ($ApprovedExitCodes -contains $process.ExitCode) {
-                        Write-Log -Message "Successfully configured BIOS, exit code: $($process.ExitCode)"
+                    if ($ApprovedExitCodes -contains $processBiosConfig.ExitCode) {
+                        Write-Log -Message "Successfully configured BIOS, exit code: $($processBiosConfig.ExitCode)"
                         [System.Environment]::Exit(0)
                     }
                     else {
-                        Write-Log -Message "Failed to configure BIOS, exit code: $($process.ExitCode)"
-                        [System.Environment]::Exit($process.ExitCode)
+                        Write-Log -Message "Failed to configure BIOS, exit code: $($processBiosConfig.ExitCode)"
+                        [System.Environment]::Exit($processBiosConfig.ExitCode)
                     }
                 }
                 catch {
