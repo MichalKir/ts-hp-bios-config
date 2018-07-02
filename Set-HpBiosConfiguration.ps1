@@ -34,7 +34,7 @@ function Set-HPBios {
     )
     begin {
         Write-Verbose -Message "Creating variables for BIOS-config tool"
-
+        ### Paths for config utility and bios password
         ## Provide path for correct Config Utility based on OS-arch
         if ((Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture -match '64') {
             $biosTool = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosConfigUtility\BiosConfigUtility64.exe"
@@ -42,11 +42,27 @@ function Set-HPBios {
         else {
             $biosTool = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosConfigUtility\BiosConfigUtility.exe"
         }
+
+        ## Provide path for BIOS-password BIN
+        $biosPassword = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosPassword\BiosConfig.bin"
         
+        ### Test paths
         ## Test if bios tool is present
-        Write-Verbose -Message "Attempting to test that $biosTool is present"
+        Write-Verbose -Message "Attempting to test if $biosTool is present"
         if (-not(Test-Path -Path $biosTool)) {
             throw "Failed to locate BIOS-tool, check if path is correct"
         }
+
+        ## Test if password path is present
+        Write-Verbose -Message "Attempting to test if $biosPassword is present"
+        if (-not(Test-Path -Path $biosPassword)) {
+            throw "Failed to locate BIOS-password, check if path is correct"
+        }
     }
+    process {
+
+    }
+
 }
+
+Set-HPBios -FolderPath C:\Temp -Verbose
