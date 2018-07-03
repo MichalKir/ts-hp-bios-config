@@ -37,15 +37,15 @@ DebugMode | Specify this if you want to run the script from Windows (it will set
 ### Why bat-wrapper? 
 Because it is the most reliable way to manage exit codes from PowerShell that never(?) fails. 
 ### Tests (so far)
-* Tested on 
-    [x] WinPE 1803 x64
-    [x] Windows 10 x64
-* Scenarios tested
-    [x] -ApprovedExitCodes
-    [x] -SetBiosPassword
-    [x] -DebugMode
-    [] -DontUseBiosPassword
-    [] -ConvertToUefi
+##### Tested on 
+- [x] WinPE 1803 x64
+- [x] Windows 10 x64
+##### Scenarios tested
+- [x] -ApprovedExitCodes
+- [x] -SetBiosPassword
+- [x] -DebugMode
+- [ ] -DontUseBiosPassword
+- [ ] -ConvertToUefi
 
 ## Planned updates\features
 * BIOS-update script.
