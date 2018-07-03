@@ -56,20 +56,34 @@ param(
     [switch]$DebugMode
 )
 begin {
-    ## Path to where folders containing computer model are stored
+    ## Path to where folder containing computer models-folders are stored
     $computerModelFolders = (Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath "BiosFiles")).FullName
     
     ## Bios utility
     if ((Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture -match '64') {
+        ## X64
         $biosTool = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosConfigUtility\BiosConfigUtility64.exe"
     }
     else {
+        ## X86
         $biosTool = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosConfigUtility\BiosConfigUtility.exe"
     }
 
-    ## Bios password
+    ## Test if HP BIOS-utility is present
+    Write-Log -Message "Attempting to test if $biosTool is present"
+    if (-not(Test-Path -Path $biosTool)) {
+        Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
+    }
+
+    ## Path to BIOS-password
     if (-not($DontUseBiosPassword)) {
         $biosPassword = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosPassword\BiosConfig.bin"
+
+        ## Test if BIOS-password is present
+        Write-Log -Message "Attempting to test if $biosPassword-file is present"
+        if (-not(Test-Path -Path $biosPassword)) {
+            Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
+        }
     }
     
     ## Computer model
@@ -134,19 +148,7 @@ process {
             Add-Content -Path $logFilePath -Value $constructMessage -Encoding UTF8 -ErrorAction SilentlyContinue
         }
     }   
-
-    ## Test if bios utility is present
-    Write-Log -Message "Attempting to test if $biosTool is present"
-    if (-not(Test-Path -Path $biosTool)) {
-        Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
-    }
     
-    ## Test if bios password is present
-    Write-Log -Message "Attempting to test if $biosPassword is present"
-    if (-not(Test-Path -Path $biosPassword)) {
-        Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
-    }
-
     ## Set HP-password
     if ($SetBiosPassword) {
         try {
@@ -155,12 +157,18 @@ process {
             $biosPasswordPath = Join-Path -Path (Split-Path -Path $biosPassword) -ChildPath 'setPassword.bin'
             Copy-Item -Path $biosPassword -Destination $biosPasswordPath -ErrorAction Stop > $null
             try {
-                ## Set password
+                ## Set BIOS-password
                 Write-Log -Message "Attempting to set BIOS-password"
                 $processPassword = Start-Process -FilePath $biosTool -ArgumentList "/nspwd:`"$biosPasswordPath`"" `
                     -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
+                ## Handle exit code 10 as success(error 10 occurs when bios password is already present)                                    
                 if (($processPassword.ExitCode -eq '10') -or ($processPassword.ExitCode -eq '0')) {
+                    Write-Log -Message "Set BIOS password exited with: $($processPassword.ExitCode)"
                     $Global:LASTEXITCODE = 0
+                }
+                else {
+                    Write-Log -Message "Set BIOS password exited with: $($processPassword.ExitCode)" -MessageType Error                  
+                    [System.Environment]::Exit($processPassword.ExitCode)
                 }
             }
             catch {
@@ -173,16 +181,19 @@ process {
     }    
     ## Get computer model folder
     foreach ($modelFolder in $computerModelFolders) {
+        ## If computer model folder is matching WMI ComputerModel, execute the configuration
         if ($modelFolder -match $computerModel) {
             Write-Log -Message "Found matching folder: $modelFolder"
             try {
                 ## Get correct BIOS-config file based on last write time
-                Write-Log -Message "Attempting to get .REPSET-file"
+                Write-Log -Message "Attempting to get .REPSET-file"                
                 if (-not($ConvertToUefi)) {
+                    ## Search for regular BIOS-password
                     $biosFile = (Get-ChildItem -Path $modelFolder -Recurse -Filter *.REPSET -Exclude *EFI* -ErrorAction Stop `
                             | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName                
                 }
                 else {
+                    ## Search for legacy to uefi BIOS-file
                     $biosFile = (Get-ChildItem -Path $modelFolder -Recurse -Filter *.REPSET -Include *EFI* -ErrorAction Stop `
                             | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName                
                 } 
@@ -190,9 +201,11 @@ process {
                     ## Configure bios
                     Write-Log -Message "Attempting to configure HP-bios using: $biosFile"
                     if (-not($DontUseBiosPassword)) {
+                        ## argument for bios that are password protected
                         $argument = "/set:`"$biosFile`" /cspwd:`"$biosPassword`""
                     }
                     else {
+                        ## argument for bios that is not password protected
                         "/set:`"$biosFile`""
                     }
                     $processBiosConfig = Start-Process -FilePath $biosTool -ArgumentList $argument -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
@@ -214,7 +227,6 @@ process {
             catch {
                 Write-Log -Message "Failed to get .REPSET-file, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
             }
-            break
         }
     }
 }
