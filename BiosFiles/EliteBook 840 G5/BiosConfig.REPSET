@@ -1,0 +1,64 @@
+BIOSConfig 1.0
+;
+;     Originally created by BIOS Configuration Utility
+;     Version: 4.0.24.1
+;     Date="2018/05/15" Time="14:52:44" UTC="2"
+;
+;     Found 224 settings
+;
+TPM Device
+	Hidden
+	*Available
+TPM State
+	Disable
+	*Enable
+Clear TPM
+	*No
+	On next boot
+TPM Activation Policy
+	F1 to Boot
+	Allow user to reject
+	*No prompts
+NumLock on at boot
+	*Disable
+	Enable
+Configure Legacy Support and Secure Boot
+	Legacy Support Enable and Secure Boot Disable
+	*Legacy Support Disable and Secure Boot Enable
+	Legacy Support Disable and Secure Boot Disable
+Configure Option ROM Launch Policy
+	All Legacy
+	*All UEFI
+	All UEFI Except Video
+UEFI Boot Options
+	Disable
+	*Enable
+UEFI Boot Order
+	UNKNOWN:EXPANSION
+	HDD:M.2:1
+	HDD:USB:1
+	NETWORK IPV4:EMBEDDED:1
+	NETWORK IPV6:EMBEDDED:1
+USB Storage Boot
+	*Disable
+	Enable
+Wake on LAN on DC mode
+	Disable
+	*Enable
+Wake on WLAN
+	Disable
+	*Enable
+LAN / WLAN Auto Switching
+	Disable
+	*Enable
+Wake On LAN
+	Disabled
+	Boot to Network
+	*Boot to Hard Drive
+	Boot to Normal Boot Order
+Virtualization Technology (VTx)
+	Disable
+	*Enable
+Virtualization Technology for Directed I/O (VTd)
+	Disable
+	*Enable
