@@ -56,6 +56,23 @@ param(
     [switch]$DebugMode
 )
 begin {
+    ############################### DO NOT CHANGE ######################################## 
+    ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+    $computerModelFolders = $null
+    $biosTool = $null
+    $biosPassword = $null
+    $computerModel = $null
+    $tsEnvironment = $null
+    $logDirectory = $null
+    $biosPasswordPath = $null
+    $biosPassword = $null
+    $processPassword = $null
+    $modelFolder = $null
+    $computerModelFolders = $null
+    $biosFile = $null
+    $argumentConfig = $null
+    $processBiosConfig = $null
+    ############################### DO NOT CHANGE - END ######################################## 
     ## Path to where folder containing computer models-folders are stored
     $computerModelFolders = (Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath "BiosFiles")).FullName
     
@@ -202,13 +219,13 @@ process {
                     Write-Log -Message "Attempting to configure HP-bios using: $biosFile"
                     if (-not($DontUseBiosPassword)) {
                         ## argument for bios that are password protected
-                        $argument = "/set:`"$biosFile`" /cspwd:`"$biosPassword`""
+                        $argumentConfig = "/set:`"$biosFile`" /cspwd:`"$biosPassword`""
                     }
                     else {
                         ## argument for bios that is not password protected
-                        "/set:`"$biosFile`""
+                        $argumentConfig = "/set:`"$biosFile`""
                     }
-                    $processBiosConfig = Start-Process -FilePath $biosTool -ArgumentList $argument -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
+                    $processBiosConfig = Start-Process -FilePath $biosTool -ArgumentList $argumentConfig -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
                     ## Check if exit code is approved
                     if ($ApprovedExitCodes -contains $processBiosConfig.ExitCode) {
                         Write-Log -Message "Successfully configured BIOS, exit code: $($processBiosConfig.ExitCode)"
