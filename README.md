@@ -12,7 +12,7 @@ All that script requires is a computer model folder that contains configuration 
 3. (optional) Generate HP-password using "HPQPswd.exe".
     * Save file as "BiosConfig.bin".
     * Move "BiosConfig.bin" to Tools\BiosPassword.
-4. Move your .REPSET(mandatory file type)-files to BiosFiles\Computer Model, eg. BiosFiles\EliteBook 840 G5\BiosConfig.REPSET).
+4. Move your .REPSET(mandatory file type)-files to BiosFiles\Computer Model, eg. BiosFiles\EliteBook 840 G5\BiosConfig.REPSET.
     * Make sure that your regular config.REPSET does not contain EFI in name, eg. BiosConfig.REPSET.
     * If you want to configure legacy to UEFI make sure that this config file is tagged with EFI in name, eg. BiosFiles\EliteBook 840 G5\EFI_BiosConfig.REPSET.
 5. Edit first line of "Set-HpBiosConfiguration.bat" with parameters you want to use.
@@ -29,7 +29,7 @@ All that script requires is a computer model folder that contains configuration 
 Parameter  | Description
 ------------- | -------------
 ApprovedExitCodes  | Exit codes that are considered as success, see "BIOS Configuration Utility User's Guide" for more information
-SetBiosPassword | Specify this if you want to set BIOS-password on script execution.
+SetBiosPassword | Specify this if you want to set BIOS-password on script execution
 DontUseBiosPassword  | Specify this if you are not using BIOS-password
 ConvertToUefi | Specify this if you are converting legacy to UEFI(seperate step), the script will look for .REPSET-file that contains EFI in name
 DebugMode | Specify this if you want to run the script from Windows (it will set log path to script directory)
