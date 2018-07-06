@@ -21,9 +21,9 @@
     # Configure BIOS
     .\Set-HpBiosConfiguration.ps1
     # Configure BIOS and set BIOS-password
-    .\Set-HpBiosConfiguration.ps1 -SetBiosPassword
+    .\Set-HpBiosConfiguration.ps1 -BiosPasswordFileName BiosPassword.bin -SetBiosPassword
     # Configure Legacy to UEFI
-    .\Set-HpBiosConfiguration.ps1 -ConvertToUefi
+    .\Set-HpBiosConfiguration.ps1 -ConvertToUefi -BiosPasswordFileName BiosPassword.bin
     # Configure BIOS and and don't use an Bios-password
     .\Set-HpBiosConfiguration.ps1 -DontUseBiosPassword
 .NOTES
