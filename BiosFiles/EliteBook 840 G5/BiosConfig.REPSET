@@ -33,12 +33,6 @@ Configure Option ROM Launch Policy
 UEFI Boot Options
 	Disable
 	*Enable
-UEFI Boot Order
-	UNKNOWN:EXPANSION
-	HDD:M.2:1
-	HDD:USB:1
-	NETWORK IPV4:EMBEDDED:1
-	NETWORK IPV6:EMBEDDED:1
 USB Storage Boot
 	*Disable
 	Enable
