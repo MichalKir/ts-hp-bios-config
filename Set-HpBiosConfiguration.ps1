@@ -1,3 +1,4 @@
+
 <#
 .SYNOPSIS
     Configure HP-Bios based on computer model.
@@ -6,6 +7,8 @@
     See ReadMe for more information.
 .PARAMETER ApprovedExitCodes
     Specify exit codes that are considered as 'Success', see "BIOS Configuration Utility User's Guide".
+.PARAMETER BiosPasswordFileName
+    Specify BIOS-password file name
 .PARAMETER SetBiosPassword
     Specify if you want to set BIOS-password during the script execution.
 .PARAMETER DontUseBiosPassword
@@ -26,98 +29,66 @@
 .NOTES
     FileName:   Set-HpBiosConfiguration.ps1
     Author:     MichalKir
-    Created:    2018-07-02
+    Created:    2018-07-06
     Tested:     WinPE 1803
     
     Version history:
+        1.1 (2018-07-06) - Seperated script into functions(for Pester testing), added BiosPasswordFileName
         1.0 (2018-07-02) - Created Set-HpBiosConfiguration.ps1 script
 #>
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName = "Default")]
 param(
-    ## Specify what exit codes are considered as success, default: 0, 1, 5, 13, 17 (See HP-documentation for more info)
-    [Parameter(Mandatory = $false, HelpMessage = "Specify list of approved exit codes")]
+    [Parameter(Mandatory = $false, HelpMessage = "Specify list of approved exit codes", ParameterSetName = "Default")]
+    [Parameter(Mandatory = $false, HelpMessage = "Specify list of approved exit codes", ParameterSetName = "NoPassword")]
     [ValidateNotNullOrEmpty()]
     [string[]]$ApprovedExitCodes = @(0, 1, 5, 13, 17),
-    ## Specify if you want to convert Legacy to EFI
-    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to set BIOS-password during BIOS-configuration")]
+    [Parameter(Mandatory = $true, HelpMessage = "Specify BIOS-password file name", ParameterSetName = "Default")]
+    [ValidateNotNullOrEmpty()]
+    [string]$BiosPasswordFileName,
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to set BIOS-password during BIOS-configuration", ParameterSetName = "Default")]
     [ValidateNotNullOrEmpty()]
     [switch]$SetBiosPassword,
-    ## Specify if you want to convert Legacy to EFI
-    [Parameter(Mandatory = $false, HelpMessage = "Specify if you are not using BIOS-password")]
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you are not using BIOS-password", ParameterSetName = "NoPassword")]
     [ValidateNotNullOrEmpty()]
-    [switch]$DontUseBiosPassword,    
-    ## Specify if you want to convert Legacy to EFI
-    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to configure BIOS from legacy to EFI")]
+    [switch]$DontUseBiosPassword,
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to configure BIOS from legacy to EFI", ParameterSetName = "Default")]
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to configure BIOS from legacy to EFI", ParameterSetName = "NoPassword")]
     [ValidateNotNullOrEmpty()]
     [switch]$ConvertToUefi,
-    ## Specify if you want to debug the app (changes log path to local path)
-    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to use debug mode(changes logging path to localfolder)")]
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to use debug mode(changes logging path to localfolder)", ParameterSetName = "Default")]
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to use debug mode(changes logging path to localfolder)", ParameterSetName = "NoPassword")]
     [ValidateNotNullOrEmpty()]
     [switch]$DebugMode
 )
 begin {
     ############################### DO NOT CHANGE ######################################## 
     ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
-    $computerModelFolders = $null
-    $biosTool = $null
-    $biosPassword = $null
-    $computerModel = $null
-    $tsEnvironment = $null
-    $logDirectory = $null
     $biosPasswordPath = $null
-    $biosPassword = $null
-    $processPassword = $null
-    $modelFolder = $null
-    $computerModelFolders = $null
-    $biosFile = $null
-    $argumentConfig = $null
-    $processBiosConfig = $null
+    $computerModelName = $null
+    $computerModelFolder = $null
+    $repsetFile = $null
     ############################### DO NOT CHANGE - END ######################################## 
-    
-    ## Path to where folder containing computer models-folders are stored
-    $computerModelFolders = (Get-ChildItem -Path (Join-Path -Path $PSScriptRoot -ChildPath "BiosFiles")).FullName
-    
-    ## Bios utility
-    if ((Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture -match '64') {
-        ## X64
-        $biosTool = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosConfigUtility\BiosConfigUtility64.exe"
-    }
-    else {
-        ## X86
-        $biosTool = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosConfigUtility\BiosConfigUtility.exe"
-    }
-
-    ## Test if HP BIOS-utility is present
-    Write-Log -Message "Attempting to test if $biosTool is present"
-    if (-not(Test-Path -Path $biosTool)) {
-        Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
-    }
-
-    ## Path to BIOS-password
+    ## Get BIOS-password if used
     if (-not($DontUseBiosPassword)) {
-        $biosPassword = Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosPassword\BiosConfig.bin"
-
-        ## Test if BIOS-password is present
-        Write-Log -Message "Attempting to test if $biosPassword-file is present"
-        if (-not(Test-Path -Path $biosPassword)) {
-            Write-Log -Message "Failed to locate BIOS-tool, check if path is correct" -MessageType Warning ; break
+        $biosPasswordPath = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName
+        if (-not ($biosPasswordPath)) {
+            throw 'BIOS-password is missing'
         }
     }
-    
-    ## Computer model
-    $computerModel = (Get-CimInstance -ClassName Win32_ComputerSystem).Model
-    $computerModel = $computerModel.TrimStart('HP').TrimStart('Hewlett-Packard').TrimStart('')
-    
-    ## Log path
-    if (-not($DebugMode)) {
-        $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction Continue
-        $logDirectory = $tsEnvironment.Value("_SMSTSLogPath")
+
+    ## Get Computer Model
+    $computerModelName = ((Get-CimInstance -ClassName Win32_ComputerSystem).Model).TrimStart('HP').TrimStart('Hewlett-Packard').TrimStart('')
+    ## Get Computer Model Folder Path
+    $computerModelFolder = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$computerModelName* | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
+    ## Get .REPSET-file
+    if (-not($ConvertToUefi)) {
+        $repsetFile = (Get-ChildItem -Path $computerModelFolder -Recurse -Filter *.REPSET -Exclude *EFI* | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
     }
     else {
-        $logDirectory = $PSScriptRoot
+        $repsetFile = (Get-ChildItem -Path $computerModelFolder -Recurse -Filter *.REPSET -Include *EFI* | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
     }
-}
-process {
+    ####### FUNCTIONS
+    ## Write-Log
     ## Write LOG-function
     function Write-Log {
         # Based on: https://janikvonrotz.ch/2017/10/26/powershell-logging-in-cmtrace-format/
@@ -134,6 +105,20 @@ process {
             [string]$MessageType = 'Information'
         )
         begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $tsEnvironment = $null
+            $logDirectory = $null
+            $logFilePath = $null
+            $constructMessage = $null
+
+            ## LOG Variables
+            if (-not($DebugMode)) {
+                $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction Continue
+                $logDirectory = $tsEnvironment.Value("_SMSTSLogPath")
+            }
+            else {
+                $logDirectory = $PSScriptRoot
+            }
             ## Manage message type
             switch ($MessageType) {
                 "Information" {
@@ -166,86 +151,194 @@ process {
             Add-Content -Path $logFilePath -Value $constructMessage -Encoding UTF8 -ErrorAction SilentlyContinue
         }
     }   
-    
-    ## Set HP-password
-    if ($SetBiosPassword) {
-        try {
-            ## Create copy of BIOS-password, some config utility versions do remove BIOS-password when used to set bios-password
-            Write-Log -Message "Attempting to create copy of BIOS-password"
-            $biosPasswordPath = Join-Path -Path (Split-Path -Path $biosPassword) -ChildPath 'setPassword.bin'
-            Copy-Item -Path $biosPassword -Destination $biosPasswordPath -ErrorAction Stop > $null
+    ## BIOS-configuration utility
+    function Invoke-HpBiosConfigurationUtility {
+        [CmdletBinding()]
+        param(
+            [Parameter(Mandatory = $false, HelpMessage = "Approved exit codes for the script execution")]
+            [ValidateNotNullOrEmpty()]
+            [string[]]$ApprovedExitCodes = @(0),
+            [Parameter(Mandatory = $true, HelpMessage = "Specify arguments that will be used for the execution")]
+            [ValidateNotNullOrEmpty()]
+            [string]$Arguments
+        )
+        begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $bcuName = $null
+            $bcuPath = $null
+            $bcuProcess = $null
+
+            ## Search for BIOS-utility based on system
+            if ((Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture -match '64') {
+                $bcuName = 'BiosConfigUtility64.exe'
+            }
+            else {
+                $bcuName = 'BiosConfigUtility.exe'   
+            }
+
+            ## Search for file
             try {
-                ## Set BIOS-password
-                Write-Log -Message "Attempting to set BIOS-password"
-                $processPassword = Start-Process -FilePath $biosTool -ArgumentList "/nspwd:`"$biosPasswordPath`"" `
-                    -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
-                ## Handle exit code 10 as success(error 10 occurs when bios password is already present)                                    
-                if (($processPassword.ExitCode -eq '10') -or ($processPassword.ExitCode -eq '0')) {
-                    Write-Log -Message "Set BIOS password exited with: $($processPassword.ExitCode)"
-                    $Global:LASTEXITCODE = 0
-                }
-                else {
-                    Write-Log -Message "Set BIOS password exited with: $($processPassword.ExitCode)" -MessageType Error                  
-                    [System.Environment]::Exit($processPassword.ExitCode)
-                }
+                $bcuPath = (Get-ChildItem -Path $PSScriptRoot -Filter $bcuName -Recurse | Select-Object -First 1 -ErrorAction Stop).FullName
             }
             catch {
-                Write-Log -Message "Failed to set HP-Bios password, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                Write-Log -Message "Failed to get $bcuName, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error -ErrorAction SilentlyContinue
+                Write-Error -ErrorRecord $_ ; break
             }
         }
-        catch {
-            Write-Log -Message "Failed to copy BIOS-password, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
-        }
-    }    
-    ## Get computer model folder
-    foreach ($modelFolder in $computerModelFolders) {
-        ## If computer model folder is matching WMI ComputerModel, execute the configuration
-        if ($modelFolder -match $computerModel) {
-            Write-Log -Message "Found matching folder: $modelFolder"
-            try {
-                ## Get correct BIOS-config file based on last write time
-                Write-Log -Message "Attempting to get .REPSET-file"                
-                if (-not($ConvertToUefi)) {
-                    ## Search for regular BIOS-password
-                    $biosFile = (Get-ChildItem -Path $modelFolder -Recurse -Filter *.REPSET -Exclude *EFI* -ErrorAction Stop `
-                            | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName                
-                }
-                else {
-                    ## Search for legacy to uefi BIOS-file
-                    $biosFile = (Get-ChildItem -Path $modelFolder -Recurse -Filter *.REPSET -Include *EFI* -ErrorAction Stop `
-                            | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName                
-                } 
-                try {                    
-                    ## Configure bios
-                    Write-Log -Message "Attempting to configure HP-bios using: $biosFile"
-                    if (-not($DontUseBiosPassword)) {
-                        ## argument for bios that are password protected
-                        $argumentConfig = "/set:`"$biosFile`" /cspwd:`"$biosPassword`""
+        process {
+            if ($bcuPath) {
+                ## Execute BCU
+                try {
+                    Write-Log -Message "Attempting to execute $bcuName using argument: $Arguments" -ErrorAction SilentlyContinue
+                    $bcuProcess = Start-Process -FilePath $bcuPath -ArgumentList "$Arguments" -PassThru -Wait -WindowStyle Hidden -ErrorAction Stop
+                    if ($ApprovedExitCodes -contains $bcuProcess.ExitCode) {
+                        $LASTEXITCODE = 0
                     }
                     else {
-                        ## argument for bios that is not password protected
-                        $argumentConfig = "/set:`"$biosFile`""
+                        Write-Log -Message "Failed to execute $bcuName, exit code: $($bcuProcess.ExitCode)" -MessageType Error -ErrorAction SilentlyContinue
+                        $LASTEXITCODE = $bcuProcess.ExitCode
+                        Write-Error -Message "Failed to execute $bcuName, exit code: $($bcuProcess.ExitCode)" ; break
                     }
-                    $processBiosConfig = Start-Process -FilePath $biosTool -ArgumentList $argumentConfig -Wait -PassThru -WindowStyle Hidden -ErrorAction Stop
-                    ## Check if exit code is approved
-                    if ($ApprovedExitCodes -contains $processBiosConfig.ExitCode) {
-                        Write-Log -Message "Successfully configured BIOS, exit code: $($processBiosConfig.ExitCode)"
-                        [System.Environment]::Exit(0)
-                    }
-                    else {
-                        Write-Log -Message "Failed to configure BIOS, exit code: $($processBiosConfig.ExitCode)"
-                        [System.Environment]::Exit($processBiosConfig.ExitCode)
-                    }
+
                 }
                 catch {
-                    Write-Log -Message "Failed to execute process, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                    Write-Log -Message "Failed to execute $bcuName, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error -ErrorAction SilentlyContinue
+                    Write-Error -ErrorRecord $_
                 }
+            }
+            else {
+                Write-Log -Message "$bcuName is missing!" -MessageType Error -ErrorAction SilentlyContinue
+                Write-Error -Message "$bcuName is missing!" ; break
+            }
+        
+        }
 
+    }
+    ## Set HP BIOS Password
+    function Set-HpBiosPassword {
+        [CmdletBinding()]
+        param (
+            [Parameter(Mandatory = $true, HelpMessage = "Specify password file")]
+            [ValidateNotNullOrEmpty()]
+            [ValidateScript( {
+                    if (-Not ($_ | Test-Path)) {
+                        throw "File is missing"
+                    }
+                    if ((Get-Item -Path $_).Extension -notmatch 'bin') {
+                        throw "File is not .bin"
+                    }
+                    return $true
+                })]
+            [System.IO.FileInfo]$PasswordPath
+        )
+        begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $passwordPathResolved = $null
+            $passwordBackup = $null
+
+            $passwordPathResolved = $PasswordPath.FullName
+            $passwordBackup = Join-Path -Path (Split-Path -Path $passwordPath) -ChildPath 'UseThisToSetPassword.bin'
+        }
+        process {
+            try {
+                ## create backup for password file, some BCU-versiones remove the .bin-file on password set                
+                if (-not(Test-Path -Path $passwordBackup)) {
+                    Write-Log -Message "Attempting to make copy of $passwordPathResolved" -ErrorAction SilentlyContinue
+                    try {
+                        Copy-Item -Path $passwordPathResolved -Destination $passwordBackup -ErrorAction Stop
+                    }
+                    catch {
+                        Write-Log -Message "Failed to make password backup, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error -ErrorAction SilentlyContinue
+                        Write-Error -ErrorRecord $_ ; break
+                    }
+
+                }
+                ## The tool is exiting with exit code 10 if password is already set, so report error 10 as success
+                Invoke-HpBiosConfigurationUtility -ApprovedExitCodes @(0, 10) -Arguments "/nspwd:`"$passwordBackup`"" -ErrorAction Stop            
             }
             catch {
-                Write-Log -Message "Failed to get .REPSET-file, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                Write-Log -Message "Failed to set BIOS-password, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error -ErrorAction SilentlyContinue
+                Write-Error -ErrorRecord $_ ; break
+            }
+        }
+    }
+
+    function Invoke-ConfigureHpBios {
+        [CmdletBinding()]
+        param (
+            [Parameter(Mandatory = $true, HelpMessage = "Provide path to Computer Model configuration")]
+            [ValidateNotNullOrEmpty()]
+            [ValidateScript( {
+                    if (-Not ($_ | Test-Path)) {
+                        throw "File is missing"
+                    }
+                    if ((Get-Item -Path $_).Extension -notmatch 'REPSET') {
+                        throw "File is not .REPSET"
+                    }
+                    return $true
+                })]
+            [System.IO.FileInfo]$ConfigFile,
+            [Parameter(Mandatory = $false, HelpMessage = "Specify password file")]
+            [ValidateNotNullOrEmpty()]
+            [ValidateScript( {
+                    if (-Not ($_ | Test-Path)) {
+                        throw "File is missing"
+                    }
+                    if ((Get-Item -Path $_).Extension -notmatch 'bin') {
+                        throw "File is not .bin"
+                    }
+                    return $true
+                })]
+            [System.IO.FileInfo]$PasswordPath,
+            [Parameter(Mandatory = $false, HelpMessage = "Approved exit codes for the script execution")]
+            [ValidateNotNullOrEmpty()]
+            [string[]]$ApprovedExitCodes = @(0)
+        )
+        begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $argument = $null
+            
+            if ($PasswordPath) {
+                $argument = "/set:`"$ConfigFile`" /cspwd:`"$PasswordPath`""
+            }
+            else {
+                $argument = "/set:`"$ConfigFile`""
+            }
+        }
+        process {
+            try {
+                Write-Log -Message "Attempting to configure HP-BIOS using arguments: $argument" -ErrorAction SilentlyContinue
+                Invoke-HpBiosConfigurationUtility -ApprovedExitCodes $ApprovedExitCodes -Arguments $argument -ErrorAction Stop
+            }
+            catch {
+                Write-Log -Message "Failed to set BIOS-config, line: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error -ErrorAction SilentlyContinue
+                Write-Error -ErrorRecord $_ ; break
             }
         }
     }
 }
-
+process {
+    ## Set BIOS-password
+    if ($SetBiosPassword) {
+        try {
+            Set-HpBiosPassword -PasswordPath $biosPasswordPath -ErrorAction Stop
+        }
+        catch {
+            Write-Error -ErrorRecord $_ ; break
+        }
+    }
+    ## Configure BIOS
+    try {
+        ## Command when password is specified
+        if (-not($DontUseBiosPassword)) {
+            Invoke-ConfigureHpBios -ConfigFile $repsetFile -ApprovedExitCodes $ApprovedExitCodes -PasswordPath $biosPasswordPath -ErrorAction Stop
+        }
+        ## Command when no password is specified
+        else {
+            Invoke-ConfigureHpBios -ConfigFile $repsetFile -ApprovedExitCodes $ApprovedExitCodes -ErrorAction Stop
+        }
+    }
+    catch {
+        Write-Error -ErrorRecord $_ ; break
+    }
+}
