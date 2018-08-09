@@ -10,7 +10,7 @@ All that script requires is a computer model folder that contains configuration 
 1. Download "HP BIOS Configuration Utility (BCU)".
 2. Unpack BCU-files to Tools\ConfigurationUtility.
 3. (optional) Generate HP-password using "HPQPswd.exe".
-    * Move BIOS-file to Tools\BiosPassword.
+    * Move password file to Tools\BiosPassword.
 4. Move your .REPSET(mandatory file type)-files to BiosFiles\Computer Model, eg. BiosFiles\EliteBook 840 G5\BiosConfig.REPSET.
     * Make sure that your regular config.REPSET does not contain EFI in name, eg. BiosConfig.REPSET.
     * If you want to configure legacy to UEFI make sure that this config file is tagged with EFI in name, eg. BiosFiles\EliteBook 840 G5\EFI_BiosConfig.REPSET.
