@@ -1,2 +1,2 @@
-powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy ByPass -file "%~DP0Update-HpBios.bat"
+powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy ByPass -file "%~DP0Update-HpBios.bat" -ExecutionType SetPasswordAndCheckVersion -BiosVersionXmlName BiosUpdate.xml -BiosPasswordFileName BiosPassword.bin
 exit /b %errorlevel%

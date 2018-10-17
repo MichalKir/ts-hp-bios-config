@@ -1,192 +1,200 @@
-FUNCTION Update-HpBios {
-    [CmdletBinding()]
-    Param (
-        [Parameter(Mandatory = $false, HelpMessage = "Specify approved exit codes", Position = 0)]
-        [ValidateNotNullOrEmpty()]
-        [string[]]$ApprovedExitcodes = @(0, 1, 5, 13, 17, 3010),
-        [Parameter(Mandatory = $true, HelpMessage = "Set execution type", Position = 1)]
-        [ValidateSet("SetPasswordAndCheckVersion", "NoPassword", "NoVersionCheck", "NoPassowrdOrVersionCheck")]
-        [string]$ExecutionType,
-        [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to run the script in debug mode", Position = 4)]
-        [ValidateNotNullOrEmpty()]
-        [switch]$DebugMode
-    )
-    DynamicParam {
-        switch ($ExecutionType) {
-            "SetPasswordAndCheckVersion" {
-                ## Param bios version xml name
-                $attributeBiosVersionXmlName = New-Object System.Management.Automation.ParameterAttribute
-                $attributeBiosVersionXmlName.Position = 2
-                $attributeBiosVersionXmlName.Mandatory = $true
-                $attributeBiosVersionXmlName.HelpMessage = "Specify BIOS-version XML-file name"
-                ## Param bios password file name
-                $attributeBiosPasswordFileName = New-Object System.Management.Automation.ParameterAttribute
-                $attributeBiosPasswordFileName.Position = 3
-                $attributeBiosPasswordFileName.Mandatory = $true
-                $attributeBiosPasswordFileName.HelpMessage = "Specify BIOS-password file name"
-                ## Attribute collection Bios XML
-                $attributeCollectionBiosXml = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-                $attributeCollectionBiosXml.Add($attributeBiosVersionXmlName)
-                ## Attribute collection Bios Password
-                $attributeCollectionBiosPassword = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-                $attributeCollectionBiosPassword.Add($attributeBiosPasswordFileName)
-                ## Create parameters
-                $biosVersionXmlName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosVersionXmlName", [string], $attributeCollectionBiosXml)
-                $biosPasswordFileName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosPasswordFileName", [string], $attributeCollectionBiosPassword)
-                ## Parameter dictionary
-                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-                $paramDictionary.Add("BiosVersionXmlName", $biosVersionXmlName)
-                $paramDictionary.Add("BiosPasswordFileName", $biosPasswordFileName)
-                return $paramDictionary
-            }
-            "NoPassword" {
-                ## Param bios version xml name
-                $attributeBiosVersionXmlName = New-Object System.Management.Automation.ParameterAttribute
-                $attributeBiosVersionXmlName.Position = 2
-                $attributeBiosVersionXmlName.Mandatory = $true
-                $attributeBiosVersionXmlName.HelpMessage = "Specify BIOS-version XML-file name"
-                ## Attribute collection Bios XML
-                $attributeCollectionBiosXml = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-                $attributeCollectionBiosXml.Add($attributeBiosVersionXmlName)
-                ## Create parameters
-                $biosVersionXmlName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosVersionXmlName", [string], $attributeCollectionBiosXml)
-                ## Parameter dictionary
-                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-                $paramDictionary.Add("BiosVersionXmlName", $biosVersionXmlName)
-                return $paramDictionary
-            }
-            "NoVersionCheck" {
-                ## Param bios password file name
-                $attributeBiosPasswordFileName = New-Object System.Management.Automation.ParameterAttribute
-                $attributeBiosPasswordFileName.Position = 2
-                $attributeBiosPasswordFileName.Mandatory = $true
-                $attributeBiosPasswordFileName.HelpMessage = "Specify BIOS-password file name"
-                ## Attribute collection Bios Password
-                $attributeCollectionBiosPassword = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
-                $attributeCollectionBiosPassword.Add($attributeBiosPasswordFileName)
-                ## Create parameters
-                $biosPasswordFileName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosPasswordFileName", [string], $attributeCollectionBiosPassword)
-                ## Parameter dictionary
-                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-                $paramDictionary.Add("BiosPasswordFileName", $biosPasswordFileName)
-                return $paramDictionary
-            }
+[CmdletBinding()]
+Param (
+    [Parameter(Mandatory = $false, HelpMessage = "Specify approved exit codes", Position = 0)]
+    [ValidateNotNullOrEmpty()]
+    [string[]]$ApprovedExitcodes = @(0, 1, 5, 13, 17, 3010),
+    [Parameter(Mandatory = $true, HelpMessage = "Set execution type", Position = 1)]
+    [ValidateSet("SetPasswordAndCheckVersion", "NoPassword", "NoVersionCheck", "NoPassowrdOrVersionCheck")]
+    [string]$ExecutionType,
+    [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to run the script in debug mode", Position = 4)]
+    [ValidateNotNullOrEmpty()]
+    [switch]$DebugMode,
+    [Parameter(Mandatory = $false, HelpMessage = "Specify targeted version, works only if DebugMode is specified", Position = 5)]
+    [ValidateNotNullOrEmpty()]
+    [string]$TargetedBiosVersion
+)
+DynamicParam {
+    switch ($ExecutionType) {            
+        "SetPasswordAndCheckVersion" {
+            ## Param bios version xml name
+            $attributeBiosVersionXmlName = New-Object System.Management.Automation.ParameterAttribute
+            $attributeBiosVersionXmlName.Position = 2
+            $attributeBiosVersionXmlName.Mandatory = $true
+            $attributeBiosVersionXmlName.HelpMessage = "Specify BIOS-version XML-file name"
+            ## Param bios password file name
+            $attributeBiosPasswordFileName = New-Object System.Management.Automation.ParameterAttribute
+            $attributeBiosPasswordFileName.Position = 3
+            $attributeBiosPasswordFileName.Mandatory = $true
+            $attributeBiosPasswordFileName.HelpMessage = "Specify BIOS-password file name"
+            ## Attribute collection Bios XML
+            $attributeCollectionBiosXml = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+            $attributeCollectionBiosXml.Add($attributeBiosVersionXmlName)
+            ## Attribute collection Bios Password
+            $attributeCollectionBiosPassword = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+            $attributeCollectionBiosPassword.Add($attributeBiosPasswordFileName)
+            ## Create parameters
+            $biosVersionXmlName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosVersionXmlName", [string], $attributeCollectionBiosXml)
+            $biosPasswordFileName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosPasswordFileName", [string], $attributeCollectionBiosPassword)
+                
+            ## Parameter dictionary
+            $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+            $paramDictionary.Add("BiosVersionXmlName", $biosVersionXmlName)
+            $paramDictionary.Add("BiosPasswordFileName", $biosPasswordFileName)
+            return $paramDictionary
+        }
+        "NoPassword" {
+            ## Param bios version xml name
+            $attributeBiosVersionXmlName = New-Object System.Management.Automation.ParameterAttribute
+            $attributeBiosVersionXmlName.Position = 2
+            $attributeBiosVersionXmlName.Mandatory = $true
+            $attributeBiosVersionXmlName.HelpMessage = "Specify BIOS-version XML-file name"
+            ## Attribute collection Bios XML
+            $attributeCollectionBiosXml = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+            $attributeCollectionBiosXml.Add($attributeBiosVersionXmlName)
+            ## Create parameters
+            $biosVersionXmlName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosVersionXmlName", [string], $attributeCollectionBiosXml)
+            ## Parameter dictionary
+            $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+            $paramDictionary.Add("BiosVersionXmlName", $biosVersionXmlName)
+            return $paramDictionary
+        }
+        "NoVersionCheck" {
+            ## Param bios password file name
+            $attributeBiosPasswordFileName = New-Object System.Management.Automation.ParameterAttribute
+            $attributeBiosPasswordFileName.Position = 2
+            $attributeBiosPasswordFileName.Mandatory = $true
+            $attributeBiosPasswordFileName.HelpMessage = "Specify BIOS-password file name"
+            ## Attribute collection Bios Password
+            $attributeCollectionBiosPassword = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+            $attributeCollectionBiosPassword.Add($attributeBiosPasswordFileName)
+            ## Create parameters
+            $biosPasswordFileName = New-Object System.Management.Automation.RuntimeDefinedParameter("BiosPasswordFileName", [string], $attributeCollectionBiosPassword)
+            ## Parameter dictionary
+            $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+            $paramDictionary.Add("BiosPasswordFileName", $biosPasswordFileName)
+            return $paramDictionary
         }
     }
-    Begin {
-        ############################### DO NOT CHANGE ########################################     
-        ## Spec variables that will be used in the script(do not change, these'll be defined later on)
-        $computerModelName = $null
-        $pathComputerModel = $null
-        $pathBiosUpdateFile = $null
-        ############################### DO NOT CHANGE - END ########################################
-        ## Get computer model
-        $computerModelName = (Get-CimInstance -ClassName Cim_ComputerSystem).Model
-        $computerModelName = ($computerModelName).Trim("HP").Trim("Hewlett-Packard").Replace("35W", " ").Trim()
-        ## Get computer model path
-        $pathComputerModel = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$computerModelName* `
-                | Where-Object {$_.Attributes -eq "Directory"} | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
-        ## Get BIOS-update file
-        $pathBiosUpdateFile = (Get-ChildItem -Path $pathComputerModel -Recurse -Include *.cab, *.cab | Select-Object -First 1).FullName
+}
+Begin {
+    ############################### DO NOT CHANGE ########################################     
+    ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+    $computerModelName = $null
+    $pathComputerModel = $null
+    $pathBiosUpdateFile = $null
+    $tsEnvironment = $null
+    ############################### DO NOT CHANGE - END ########################################
+    ## Initiate TSEnv
+    $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction SilentlyContinue
+    ## Get computer model
+    $computerModelName = (Get-CimInstance -ClassName Cim_ComputerSystem).Model
+    $computerModelName = ($computerModelName).Trim("HP").Trim("Hewlett-Packard").Replace("35W", " ").Trim()
+    ## Get computer model path
+    $pathComputerModel = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$computerModelName* `
+            | Where-Object {$_.Attributes -eq "Directory"} | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
+    ## Get BIOS-update file
+    $pathBiosUpdateFile = (Get-ChildItem -Path $pathComputerModel -Recurse -Include *.cab, *.cab | Select-Object -First 1).FullName
         
-        ## Create variables based on ExecutionType
-        switch ($ExecutionType) {
-            "SetPasswordAndCheckVersion" {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
-                $pathBiosVersionXml = $null
-                $pathBiosPassword = $null
-                ## Redefine dynamic parameters
-                $BiosVersionXmlName = $biosVersionXmlName.Value
-                $BiosPasswordFileName = $biosPasswordFileName.Value
-                ## Get BIOS-xml file
-                $pathBiosVersionXml = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosVersionXmlName* -Include *.xml | Select-Object -First 1).FullName
-                ## Get BIOS-password file
-                $pathBiosPassword = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName                
-            }
-            "NoPassword" {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
-                $pathBiosVersionXml = $null
-                ## Redefine dynamic parameters
-                $BiosVersionXmlName = $biosVersionXmlName.Value
-                ## Get BIOS-xml file
-                $pathBiosVersionXml = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosVersionXmlName* -Include *.xml | Select-Object -First 1).FullName
-            }
-            "NoVersionCheck" {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
-                $pathBiosPassword = $null
-                ## Redefine dynamic parameters
-                $BiosPasswordFileName = $biosPasswordFileName.Value
-                ## Get BIOS-password file
-                $pathBiosPassword = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName  
-            }
+    ## Create variables based on ExecutionType
+    switch ($ExecutionType) {
+        "SetPasswordAndCheckVersion" {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+            $pathBiosVersionXml = $null
+            $pathBiosPassword = $null
+            $tsFlagForReboot = $null
+            ## Redefine dynamic parameters
+            $BiosVersionXmlName = $biosVersionXmlName.Value
+            $BiosPasswordFileName = $biosPasswordFileName.Value
+            ## Get BIOS-xml file
+            $pathBiosVersionXml = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosVersionXmlName* -Include *.xml | Select-Object -First 1).FullName
+            ## Get BIOS-password file
+            $pathBiosPassword = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName                                   
         }
-
-        ####### FUNCTIONS
-        ## Write-Log
-        FUNCTION Write-Log {
-            # Based on: https://janikvonrotz.ch/2017/10/26/powershell-logging-in-cmtrace-format/
-            [CmdletBinding()]
-            param (
-                [Parameter(Mandatory = $false, HelpMessage = "Specify log name")]
-                [ValidateNotNullOrEmpty()]
-                [string]$LogName = "BiosUpdate.log",
-                [Parameter(Mandatory = $true, HelpMessage = "Provide log message")]
-                [ValidateNotNullOrEmpty()]
-                [string]$Message,
-                [Parameter(Mandatory = $false, HelpMessage = "Specify message type")]
-                [ValidateSet('Information', 'Warning', 'Error')]
-                [string]$MessageType = 'Information'
-            )
-            begin {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
-                $tsEnvironment = $null
-                $logDirectory = $null
-                $logFilePath = $null
-                $constructMessage = $null
-
-                ## LOG Variables
-                if (-not($DebugMode)) {
-                    $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction Continue
-                    $logDirectory = $tsEnvironment.Value("_SMSTSLogPath")
-                }
-                else {
-                    $logDirectory = $PSScriptRoot
-                }
-                ## Manage message type
-                switch ($MessageType) {
-                    "Information" {
-                        [int]$MessageType = 1
-                        Write-Host -Object $Message
-                    }
-                    "Warning" {
-                        [int]$MessageType = 2
-                        Write-Host -Object $Message -BackgroundColor Yellow
-                    }
-                    "Error" {
-                        [int]$MessageType = 3
-                        Write-Host -Object $Message -BackgroundColor Red
-                    }
-                }
-                ## Generate log file path
-                $logFilePath = Join-Path -Path $logDirectory -ChildPath $LogName
-                ## Construct message
-                $constructMessage = "<![LOG[$Message]LOG]!>" + `
-                    "<time=`"$(Get-Date -Format "HH:mm:ss.ffffff")`" " + `
-                    "date=`"$(Get-Date -Format "M-d-yyyy")`" " + `
-                    "component=`"BiosConfiguration`" " + `
-                    "context=`"$([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)`" " + `
-                    "type=`"$Type`" " + `
-                    "thread=`"$([Threading.Thread]::CurrentThread.ManagedThreadId)`" " + `
-                    "file=`"`">"
-            }
-            process {
-                ## Append message to log file
-                Add-Content -Path $logFilePath -Value $constructMessage -Encoding UTF8 -ErrorAction SilentlyContinue
-            }
+        "NoPassword" {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+            $pathBiosVersionXml = $null
+            ## Redefine dynamic parameters
+            $BiosVersionXmlName = $biosVersionXmlName.Value
+            ## Get BIOS-xml file
+            $pathBiosVersionXml = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosVersionXmlName* -Include *.xml | Select-Object -First 1).FullName
         }
+        "NoVersionCheck" {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+            $pathBiosPassword = $null
+            $tsFlagForReboot = $null
+            ## Redefine dynamic parameters
+            $BiosPasswordFileName = $biosPasswordFileName.Value
+            ## Get BIOS-password file
+            $pathBiosPassword = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName  
+        }
+    }
 
-        FUNCTION Test-BiosUpdateNeeded {    
-            <#
+    ####### FUNCTIONS
+    ## Write-Log
+    FUNCTION Write-Log {
+        # Based on: https://janikvonrotz.ch/2017/10/26/powershell-logging-in-cmtrace-format/
+        [CmdletBinding()]
+        param (
+            [Parameter(Mandatory = $false, HelpMessage = "Specify log name")]
+            [ValidateNotNullOrEmpty()]
+            [string]$LogName = "BiosUpdate.log",
+            [Parameter(Mandatory = $true, HelpMessage = "Provide log message")]
+            [ValidateNotNullOrEmpty()]
+            [string]$Message,
+            [Parameter(Mandatory = $false, HelpMessage = "Specify message type")]
+            [ValidateSet('Information', 'Warning', 'Error')]
+            [string]$MessageType = 'Information'
+        )
+        begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $tsEnvironment = $null
+            $logDirectory = $null
+            $logFilePath = $null
+            $constructMessage = $null
+
+            ## LOG Variables
+            if (-not($DebugMode)) {
+                $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction Continue
+                $logDirectory = $tsEnvironment.Value("_SMSTSLogPath")
+            }
+            else {
+                $logDirectory = $PSScriptRoot
+            }
+            ## Manage message type
+            switch ($MessageType) {
+                "Information" {
+                    [int]$MessageType = 1
+                    Write-Host -Object $Message
+                }
+                "Warning" {
+                    [int]$MessageType = 2
+                    Write-Host -Object $Message -BackgroundColor Yellow
+                }
+                "Error" {
+                    [int]$MessageType = 3
+                    Write-Host -Object $Message -BackgroundColor Red
+                }
+            }
+            ## Generate log file path
+            $logFilePath = Join-Path -Path $logDirectory -ChildPath $LogName
+            ## Construct message
+            $constructMessage = "<![LOG[$Message]LOG]!>" + `
+                "<time=`"$(Get-Date -Format "HH:mm:ss.ffffff")`" " + `
+                "date=`"$(Get-Date -Format "M-d-yyyy")`" " + `
+                "component=`"BiosConfiguration`" " + `
+                "context=`"$([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)`" " + `
+                "type=`"$Type`" " + `
+                "thread=`"$([Threading.Thread]::CurrentThread.ManagedThreadId)`" " + `
+                "file=`"`">"
+        }
+        process {
+            ## Append message to log file
+            Add-Content -Path $logFilePath -Value $constructMessage -Encoding UTF8 -ErrorAction SilentlyContinue
+        }
+    }
+
+    FUNCTION Test-BiosUpdateNeeded {    
+        <#
             .SYNOPSIS
             Test if BIOS-update is needed
             
@@ -215,211 +223,410 @@ FUNCTION Update-HpBios {
             Version history:
                 - 1.0.0 (2018-10-17) - Script created
             #>                    
-            [CmdletBinding(DefaultParameterSetName = "Default")]
-            Param (
-                [Parameter(Mandatory = $true, HelpMessage = "Specify computer model name", ParameterSetName = "Default")]
-                [ValidateNotNullOrEmpty()]
-                [string]$ComputerModel,
-                [Parameter(Mandatory = $true, HelpMessage = "Provide BIOS-xml file path", ParameterSetName = "Default")]
-                [ValidateScript( {
-                        if (-not ($_ | Test-Path)) {
-                            throw "File is missing"
-                        }
-                        if ((Get-Item -Path $_).Extension -notmatch 'xml') {
-                            throw "File is not .xml"
-                        }
-                        return $true
-                    })]
-                [ValidateNotNullOrEmpty()]
-                [System.IO.FileInfo]$XmlPath,
-                [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to run the function in the debug mode", ParameterSetName = "DebugMode")]
-                [ValidateNotNullOrEmpty()]
-                [switch]$DebugMode,
-                [Parameter(Mandatory = $true, HelpMessage = "Specify targeted BIOS version", ParameterSetName = "DebugMode")]
-                [ValidateNotNullOrEmpty()]
-                [string]$TargetedBiosVersion
-            )
-            Begin {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
-                $readBiosXml = $null
-                $getCurrentBiosVersion = $null
-                $getTargetedBiosVersion = $null
-            }
-            Process {
-                try {
-                    if (-not($DebugMode)) {
-                        ## Get targeted BIOS-version
-                        $getTargetedBiosVersion = ($readBiosXml.ComputerModels.ComputerModel | Where-Object {$_.Name -match $ComputerModel}).BIOS
-                        ## Read XML-file
-                        [xml]$readBiosXml = Get-Content -Path $XmlPath.FullName
+        [CmdletBinding(DefaultParameterSetName = "Default")]
+        Param (
+            [Parameter(Mandatory = $true, HelpMessage = "Specify computer model name", ParameterSetName = "Default")]
+            [ValidateNotNullOrEmpty()]
+            [string]$ComputerModel,
+            [Parameter(Mandatory = $true, HelpMessage = "Provide BIOS-xml file path", ParameterSetName = "Default")]
+            [ValidateScript( {
+                    if (-not ($_ | Test-Path)) {
+                        throw "File is missing"
                     }
-                    else {
-                        $getTargetedBiosVersion = $TargetedBiosVersion
-                    }                    
-                    ## Get current BIOS-version
-                    $getCurrentBiosVersion = (Get-CimInstance -ClassName Cim_BiosElement).SMBIOSBIOSVersion
+                    if ((Get-Item -Path $_).Extension -notmatch 'xml') {
+                        throw "File is not .xml"
+                    }
+                    return $true
+                })]
+            [ValidateNotNullOrEmpty()]
+            [System.IO.FileInfo]$XmlPath,
+            [Parameter(Mandatory = $false, HelpMessage = "Specify if you want to run the function in the debug mode", ParameterSetName = "DebugMode")]
+            [ValidateNotNullOrEmpty()]
+            [switch]$DebugMode,
+            [Parameter(Mandatory = $true, HelpMessage = "Specify targeted BIOS version", ParameterSetName = "DebugMode")]
+            [ValidateNotNullOrEmpty()]
+            [string]$TargetedBiosVersion
+        )
+        Begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+            $readBiosXml = $null
+            $getCurrentBiosVersion = $null
+            $getTargetedBiosVersion = $null
+        }
+        Process {
+            try {
+                if (-not($DebugMode)) {
+                    ## Get targeted BIOS-version
+                    $getTargetedBiosVersion = ($readBiosXml.ComputerModels.ComputerModel | Where-Object {$_.Name -match $ComputerModel}).BIOS
+                    ## Read XML-file
+                    [xml]$readBiosXml = Get-Content -Path $XmlPath.FullName
+                }
+                else {
+                    $getTargetedBiosVersion = $TargetedBiosVersion
+                }                    
+                ## Get current BIOS-version
+                $getCurrentBiosVersion = (Get-CimInstance -ClassName Cim_BiosElement).SMBIOSBIOSVersion
                                         
-                    ## Check if Update is needed
-                    if ($getCurrentBiosVersion -notmatch $getTargetedBiosVersion) {
-                        return "UpdateNeeded"
-                    }
-                    else {
-                        return "UpdateNotNeeded"
-                    }
+                ## Check if Update is needed
+                if ($getCurrentBiosVersion -notmatch $getTargetedBiosVersion) {
+                    return "UpdateNeeded"
                 }
-                catch {
-                    Write-Error -ErrorRecord $_
+                else {
+                    return "UpdateNotNeeded"
                 }
+            }
+            catch {
+                Write-Error -ErrorRecord $_
             }
         }
+    }
 
-        ## Invoke-HpBiosUpdateUtility
-        FUNCTION Invoke-HpBiosUpdateUtility {
-            [CmdletBinding(DefaultParameterSetName = "Default")]
-            Param (
-                [Parameter(Mandatory = $false, HelpMessage = "Specify approved exit codes", ParameterSetName = "Default")]
-                [Parameter(Mandatory = $false, HelpMessage = "Specify approved exit codes", ParameterSetName = "NoBiosPassword")]
-                [ValidateNotNullOrEmpty()]
-                [string[]]$ApprovedExitcodes = $ApprovedExitcodes,
-                [Parameter(Mandatory = $false, HelpMessage = "Provide BIOS-update file path", ParameterSetName = "Default")]
-                [Parameter(Mandatory = $false, HelpMessage = "Provide BIOS-update file path", ParameterSetName = "NoBiosPassword")]
-                [ValidateScript( {
-                        if (-not ($_ | Test-Path)) {
-                            throw "File is missing"
-                        }
-                        if ((Get-Item -Path $_).Extension -notmatch 'bin') {
-                            throw "File is not .bin"
-                        }
-                        return $true
-                    })]
-                [ValidateNotNullOrEmpty()]
-                [System.IO.FileInfo]$UpdateFilePath,
-                [Parameter(Mandatory = $true, HelpMessage = "Provide BIOS-password file path", ParameterSetName = "Default")]
-                [ValidateScript( {
-                        if (-not ($_ | Test-Path)) {
-                            throw "File is missing"
-                        }
-                        if ((Get-Item -Path $_).Extension -notmatch 'bin') {
-                            throw "File is not .bin"
-                        }
-                        return $true
-                    })]
-                [ValidateNotNullOrEmpty()]
-                [System.IO.FileInfo]$PasswordFilePath,
-                [Parameter(Mandatory = $true, HelpMessage = "Specify this if you BIOS is not password protected", ParameterSetName = "NoBiosPassword")]
-                [ValidateNotNullOrEmpty()]
-                [switch]$DontUsePassword
-            )
-            Begin {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
-                $biosUpdateUtilityPath = $null
-                $biosUpdateUtilityProcess = $null
-                $arguments = $null
-                $fileName = $null
-                ## Get BIOS-file name
-                $fileName = Split-Path -Path $UpdateFilePath.FullName -Leaf
-                ## Determinate Bios utility
-                ## if file is .BIN
-                if (Get-Item -Path $fileName | Where-Object {$_.Extension -match "bin"}) {
-                    if ([Environment]::Is64BitOperatingSystem -eq $true) {
-                        ## If HpFirmwareUpdRec is present, use it instead of HpBiosUpdRec
-                        if (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC64.exe" -Recurse) {
-                            $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC64.exe" -Recurse | Select-Object -First 1).FullName
-                        }
-                        if (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec64.exe" -Recurse) {
-                            $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec64.exe" -Recurse | Select-Object -First 1).FullName
-                        }
+    ## Invoke-HpBiosUpdateUtility
+    FUNCTION Invoke-HpBiosUpdateUtility {
+        <#
+            .SYNOPSIS
+            Update HP BIOS
+            
+            .DESCRIPTION
+            Update HP BIOS based on if update file is .bin or .cab
+            
+            .PARAMETER ApprovedExitcodes
+            Approved exit codes
+            
+            .PARAMETER UpdateFilePath
+            Specify path to HP bin or cab update file
+
+            .PARAMETER PasswordFilePath
+            Specify path to password file path if parameter set is default
+
+            .PARAMETER DontUsePassword
+            Don't use BIOS-password
+            
+            .EXAMPLE
+            Invoke-HpBiosUpdateUtility -ApprovedExitCodes @(0, 1, 5, 13, 17, 3010) `
+                -UpdateFilePath (Join-Path -Path $PSScriptRoot -ChildPath "BiosFiles\EliteBook 850 G5\Q78_010400.bin") `
+                -PasswordFilePath (Join-Path -Path $PSScriptRoot -ChildPath "Tools\BiosPassword\BiosPassword.bin")
+            Test-BiosUpdateNeeded -DebugMode -TargetedBiosVersion "01.03.00" 
+            Author:         Mickis
+            Version:        1.0.0
+            Date:           2018-10-17
+
+            Version history:
+                - 1.0.0 (2018-10-17) - Script created
+            #>               
+        [CmdletBinding(DefaultParameterSetName = "Default")]
+        Param (
+            [Parameter(Mandatory = $false, HelpMessage = "Specify approved exit codes", ParameterSetName = "Default")]
+            [Parameter(Mandatory = $false, HelpMessage = "Specify approved exit codes", ParameterSetName = "NoBiosPassword")]
+            [ValidateNotNullOrEmpty()]
+            [string[]]$ApprovedExitcodes = $ApprovedExitcodes,
+            [Parameter(Mandatory = $false, HelpMessage = "Provide BIOS-update file path", ParameterSetName = "Default")]
+            [Parameter(Mandatory = $false, HelpMessage = "Provide BIOS-update file path", ParameterSetName = "NoBiosPassword")]
+            [ValidateScript( {
+                    if (-not ($_ | Test-Path)) {
+                        throw "File is missing"
                     }
-                    else {
-                        if (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC.exe" -Recurse) {
-                            $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC.exe" -Recurse | Select-Object -First 1).FullName
-                        }
-                        if (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec.exe" -Recurse) {
-                            $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec.exe" -Recurse | Select-Object -First 1).FullName
-                        }
+                    if ((Get-Item -Path $_).Extension -notmatch 'bin') {
+                        throw "File is not .bin"
                     }
-                    ## Arguments
-                    if (-not ($DontUsePassword)) {
-                        $arguments = "-p`"$($PasswordFilePath.FullName)`" -f`"$($UpdateFilePath.FullName)`" -b -s -r"
+                    return $true
+                })]
+            [ValidateNotNullOrEmpty()]
+            [System.IO.FileInfo]$UpdateFilePath,
+            [Parameter(Mandatory = $true, HelpMessage = "Provide BIOS-password file path", ParameterSetName = "Default")]
+            [ValidateScript( {
+                    if (-not ($_ | Test-Path)) {
+                        throw "File is missing"
                     }
-                    else {
-                        $arguments = "-f`"$($UpdateFilePath.FullName)`" -b -s -r"
+                    if ((Get-Item -Path $_).Extension -notmatch 'bin') {
+                        throw "File is not .bin"
                     }
-                } 
-                ## If file is .CAB
-                else {
-                    $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HPQFlash.exe" -Recurse | Select-Object -First 1).FullName 
-                    if (-not ($DontUsePassword)) {
-                        $arguments = "-p`"$($PasswordFilePath.FullName)`" -f`"$($UpdateFilePath.FullName)`" -s"
+                    return $true
+                })]
+            [ValidateNotNullOrEmpty()]
+            [System.IO.FileInfo]$PasswordFilePath,
+            [Parameter(Mandatory = $true, HelpMessage = "Specify this if you BIOS is not password protected", ParameterSetName = "NoBiosPassword")]
+            [ValidateNotNullOrEmpty()]
+            [switch]$DontUsePassword
+        )
+        Begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+            $biosUpdateUtilityPath = $null
+            $biosUpdateUtilityProcess = $null
+            $arguments = $null
+            $fileName = $null
+            ## Get BIOS-file name
+            $fileName = Split-Path -Path $UpdateFilePath.FullName -Leaf
+            ## Determinate Bios utility
+            ## if file is .BIN
+            if (Get-Item -Path $fileName | Where-Object {$_.Extension -match "bin"}) {
+                if ([Environment]::Is64BitOperatingSystem -eq $true) {
+                    ## If HpFirmwareUpdRec is present, use it instead of HpBiosUpdRec
+                    if (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC64.exe" -Recurse) {
+                        $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC64.exe" -Recurse | Select-Object -First 1).FullName
                     }
-                    else {
-                        $arguments = "-f`"$($UpdateFilePath.FullName)`" -s"
+                    if (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec64.exe" -Recurse) {
+                        $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec64.exe" -Recurse | Select-Object -First 1).FullName
                     }
                 }
-                ## Make sure that BIOS-config tool is present
-                if (-not ($biosUpdateUtilityPath)) {
-                    throw "BIOS-update tool is missing"
-                }                  
+                else {
+                    if (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC.exe" -Recurse) {
+                        $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HPBIOSUPDREC.exe" -Recurse | Select-Object -First 1).FullName
+                    }
+                    if (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec.exe" -Recurse) {
+                        $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HpFirmwareUpdRec.exe" -Recurse | Select-Object -First 1).FullName
+                    }
+                }
+                ## Arguments
+                if (-not ($DontUsePassword)) {
+                    $arguments = "-p`"$($PasswordFilePath.FullName)`" -f`"$($UpdateFilePath.FullName)`" -b -s -r"
+                }
+                else {
+                    $arguments = "-f`"$($UpdateFilePath.FullName)`" -b -s -r"
+                }
+            } 
+            ## If file is .CAB
+            else {
+                $biosUpdateUtilityPath = (Get-ChildItem -Path $PSScriptRoot -Filter "HPQFlash.exe" -Recurse | Select-Object -First 1).FullName 
+                if (-not ($DontUsePassword)) {
+                    $arguments = "-p`"$($PasswordFilePath.FullName)`" -f`"$($UpdateFilePath.FullName)`" -s"
+                }
+                else {
+                    $arguments = "-f`"$($UpdateFilePath.FullName)`" -s"
+                }
             }
-            Process {
-                ## Execute update process
-                $biosUpdateUtilityProcess = Start-Process -FilePath $biosUpdateUtilityPath -ArgumentList $arguments -PassThru -Wait -WindowStyle Hidden -ErrorAction Stop
-                if ($ApprovedExitcodes -contains $biosUpdateUtilityProcess.ExitCode) {
+            ## Make sure that BIOS-config tool is present
+            if (-not ($biosUpdateUtilityPath)) {
+                throw "BIOS-update tool is missing"
+            }                  
+        }
+        Process {
+            ## Execute update process
+            $biosUpdateUtilityProcess = Start-Process -FilePath $biosUpdateUtilityPath -ArgumentList $arguments -PassThru -Wait -WindowStyle Hidden -ErrorAction Stop
+            if ($ApprovedExitcodes -contains $biosUpdateUtilityProcess.ExitCode) {
+                $LASTEXITCODE = 0
+            }
+            else {
+                $LASTEXITCODE = $biosUpdateUtilityProcess.ExitCode
+                Write-Error -ErrorRecord $_
+            }
+        }
+    }
+    ## BIOS-configuration utility
+    FUNCTION Invoke-HpBiosConfigurationUtility {
+        [CmdletBinding()]
+        Param (
+            [Parameter(Mandatory = $false, HelpMessage = "Approved exit codes for the script execution")]
+            [ValidateNotNullOrEmpty()]
+            [string[]]$ApprovedExitCodes = @(0),
+            [Parameter(Mandatory = $true, HelpMessage = "Specify arguments that will be used for the execution")]
+            [ValidateNotNullOrEmpty()]
+            [string]$Arguments
+        )
+        Begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $bcuName = $null
+            $bcuPath = $null
+            $bcuProcess = $null
+
+            ## Search for BIOS-utility based on system
+            if ((Get-CimInstance -ClassName Win32_OperatingSystem).OSArchitecture -match '64') {
+                $bcuName = 'BiosConfigUtility64.exe'
+            }
+            else {
+                $bcuName = 'BiosConfigUtility.exe'   
+            }
+
+            ## Search for file
+            try {
+                $bcuPath = (Get-ChildItem -Path $PSScriptRoot -Filter $bcuName -Recurse | Select-Object -First 1 -ErrorAction Stop).FullName
+            }
+            catch {
+                Write-Error -ErrorRecord $_ ; break
+            }
+
+            if (-not ($bcuPath)) {
+                Write-Error -Message "Bios Config Utility not found" ; break
+            }
+        }
+        Process {
+            ## Execute BCU
+            try {
+                Write-Verbose -Message "Attempting to execute $bcuName using argument: $Arguments" -ErrorAction SilentlyContinue
+                $bcuProcess = Start-Process -FilePath $bcuPath -ArgumentList "$Arguments" -PassThru -Wait -WindowStyle Hidden -ErrorAction Stop
+                if ($ApprovedExitCodes -contains $bcuProcess.ExitCode) {
                     $LASTEXITCODE = 0
                 }
                 else {
-                    $LASTEXITCODE = $biosUpdateUtilityProcess.ExitCode
-                    throw "Failed to update HP BIOS"
+                    $LASTEXITCODE = $bcuProcess.ExitCode
+                    Write-Error -Message "Failed to execute $bcuName, exit code: $($bcuProcess.ExitCode)" ; break
                 }
-            }
-        }
-        ## Set HP BIOS Password
-        FUNCTION Set-HpBiosPassword {
-            [CmdletBinding()]
-            Param (
-                [Parameter(Mandatory = $true, HelpMessage = "Specify password file")]
-                [ValidateNotNullOrEmpty()]
-                [ValidateScript( {
-                        if (-Not ($_ | Test-Path)) {
-                            throw "File is missing"
-                        }
-                        if ((Get-Item -Path $_).Extension -notmatch 'bin') {
-                            throw "File is not .bin"
-                        }
-                        return $true
-                    })]
-                [System.IO.FileInfo]$PasswordPath
-            )
-            Begin {
-                ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
-                $passwordPathResolved = $null
-                $passwordBackup = $null
 
-                $passwordPathResolved = $PasswordPath.FullName
-                $passwordBackup = Join-Path -Path (Split-Path -Path $passwordPath) -ChildPath 'UseThisToSetPassword.bin'
             }
-            Process {
-                try {
-                    ## create backup for password file, some BCU-versiones remove the .bin-file on password set                
-                    if (-not(Test-Path -Path $passwordBackup)) {
-                        Write-Verbose -Message "Attempting to make copy of $passwordPathResolved" -ErrorAction SilentlyContinue
-                        try {
-                            Copy-Item -Path $passwordPathResolved -Destination $passwordBackup -ErrorAction Stop
-                        }
-                        catch {
-                            Write-Error -ErrorRecord $_ ; break
-                        }
-
+            catch {
+                Write-Error -ErrorRecord $_
+            }        
+        }     
+    }
+    ## Set HP BIOS Password
+    FUNCTION Set-HpBiosPassword {
+        [CmdletBinding()]
+        Param (
+            [Parameter(Mandatory = $true, HelpMessage = "Specify password file")]
+            [ValidateNotNullOrEmpty()]
+            [ValidateScript( {
+                    if (-Not ($_ | Test-Path)) {
+                        throw "File is missing"
                     }
-                    ## The tool is exiting with exit code 10 if password is already set, so report error 10 as success
-                    Invoke-HpBiosConfigurationUtility -ApprovedExitCodes @(0, 10) -Arguments "/nspwd:`"$passwordBackup`"" -ErrorAction Stop            
+                    if ((Get-Item -Path $_).Extension -notmatch 'bin') {
+                        throw "File is not .bin"
+                    }
+                    return $true
+                })]
+            [System.IO.FileInfo]$PasswordPath
+        )
+        Begin {
+            ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+            $passwordPathResolved = $null
+            $passwordBackup = $null
+
+            $passwordPathResolved = $PasswordPath.FullName
+            $passwordBackup = Join-Path -Path (Split-Path -Path $passwordPath) -ChildPath 'UseThisToSetPassword.bin'
+        }
+        Process {
+            try {
+                ## create backup for password file, some BCU-versiones remove the .bin-file on password set                
+                if (-not(Test-Path -Path $passwordBackup)) {
+                    Write-Verbose -Message "Attempting to make copy of $passwordPathResolved" -ErrorAction SilentlyContinue
+                    try {
+                        Copy-Item -Path $passwordPathResolved -Destination $passwordBackup -ErrorAction Stop
+                    }
+                    catch {
+                        Write-Error -ErrorRecord $_ ; break
+                    }
+
                 }
-                catch {
-                    Write-Error -ErrorRecord $_ ; break
-                }
+                ## The tool is exiting with exit code 10 if password is already set, so report error 10 as success
+                Invoke-HpBiosConfigurationUtility -ApprovedExitCodes @(0, 10) -Arguments "/nspwd:`"$passwordBackup`"" -ErrorAction Stop            
+            }
+            catch {
+                Write-Error -ErrorRecord $_ ; break
             }
         }
     }
 }
-
-Update-HpBios -ExecutionType NoPassowrdOrVersionCheck
+Process {
+    switch ($ExecutionType) {
+        "SetPasswordAndCheckVersion" {
+            try {
+                ## Set HP-password
+                Write-Log -Message "Attempting ot set BIOS-password"
+                Set-HpBiosPassword -PasswordPath $pathBiosPassword -ErrorAction Stop
+                try {
+                    ## Check if BIOS-update is needed
+                    Write-Log -LogName "Attempting to test if BIOS-update is needed"
+                    if (-not ($DebugMode)) {
+                        $checkForUpdate = Test-BiosUpdateNeeded -ComputerModel $computerModelName -XmlPath $pathBiosVersionXml -ErrorAction Stop
+                    }
+                    else {
+                        $checkForUpdate = Test-BiosUpdateNeeded -DebugMode -TargetedBiosVersion $TargetedBiosVersion
+                    }        
+                    if ($checkForUpdate -eq "UpdateNeeded") {
+                        ## Flag that reboot is needed
+                        if ($tsEnvironment) {
+                            $tsEnvironment.Value("BiosUpdateFlagReboot") = $true
+                        }                         
+                        try {
+                            ## Update BIOS
+                            Write-Log -Message "Attempting to update BIOS"
+                            Invoke-HpBiosUpdateUtility -ApprovedExitcodes $ApprovedExitcodes -UpdateFilePath $pathBiosUpdateFile -PasswordFilePath $pathBiosPassword -ErrorAction Stop
+                        }
+                        catch {
+                            Write-Log -Message "Failed to update BIOS, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                            Write-Error -ErrorRecord $_ ; break
+                        }
+                    }                        
+                }
+                catch {
+                    Write-Log -Message "Failed to test if BIOS-update is needed, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                    Write-Error -ErrorRecord $_ ; break
+                }
+            }
+            catch {
+                Write-Log -Message "Failed to set BIOS-password, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                Write-Error -ErrorRecord $_ ; break
+            }                
+        }
+        "NoPassword" {
+            try {
+                ## Check if BIOS-update is needed
+                Write-Log -LogName "Attempting to test if BIOS-update is needed"
+                if (-not ($DebugMode)) {
+                    $checkForUpdate = Test-BiosUpdateNeeded -ComputerModel $computerModelName -XmlPath $pathBiosVersionXml -ErrorAction Stop
+                }
+                else {
+                    $checkForUpdate = Test-BiosUpdateNeeded -DebugMode -TargetedBiosVersion $TargetedBiosVersion
+                }        
+                if ($checkForUpdate -eq "UpdateNeeded") {      
+                    ## Flag that reboot is needed
+                    if ($tsEnvironment) {
+                        $tsEnvironment.Value("BiosUpdateFlagReboot") = $true
+                    }
+                    try {
+                        ## Update BIOS
+                        Write-Log -Message "Attempting to update BIOS"
+                        Invoke-HpBiosUpdateUtility -ApprovedExitcodes $ApprovedExitcodes -UpdateFilePath $pathBiosUpdateFile -DontUsePassword -ErrorAction Stop
+                    }
+                    catch {
+                        Write-Log -Message "Failed to update BIOS, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                        Write-Error -ErrorRecord $_ ; break
+                    }
+                }                    
+            }
+            catch {
+                Write-Log -Message "Failed to test if BIOS-update is needed, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                Write-Error -ErrorRecord $_ ; break
+            }
+        }
+        "NoVersionCheck" {
+            if ($tsEnvironment) {
+                $tsEnvironment.Value("BiosUpdateFlagReboot") = $true
+            }
+            try {                
+                ## Set HP-password
+                Write-Log -Message "Attempting ot set BIOS-password"
+                Set-HpBiosPassword -PasswordPath $pathBiosPassword -ErrorAction Stop  
+                ## Flag that reboot is needed                              
+                try {
+                    ## Update BIOS
+                    Write-Log -Message "Attempting to update BIOS"
+                    Invoke-HpBiosUpdateUtility -ApprovedExitcodes $ApprovedExitcodes -UpdateFilePath $pathBiosUpdateFile -PasswordFilePath $pathBiosPassword -ErrorAction Stop
+                }
+                catch {
+                    Write-Log -Message "Failed to update BIOS, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                    Write-Error -ErrorRecord $_ ; break
+                }
+                        
+            }
+            catch {
+                Write-Log -Message "Failed to set BIOS-password, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                Write-Error -ErrorRecord $_ ; break
+            }
+        }
+        "NoPasswordOrVersionCheck" {
+            ## Flag that reboot is needed
+            if ($tsEnvironment) {
+                $tsEnvironment.Value("BiosUpdateFlagReboot") = $true
+            }
+            try {
+                ## Update BIOS
+                Write-Log -Message "Attempting to update BIOS"
+                Invoke-HpBiosUpdateUtility -ApprovedExitcodes $ApprovedExitcodes -UpdateFilePath $pathBiosUpdateFile -DontUsePassword -ErrorAction Stop
+            }
+            catch {
+                Write-Log -Message "Failed to update BIOS, error: $($_.InvocationInfo.ScriptLineNumber): $($_.Exception.Message)" -MessageType Error
+                Write-Error -ErrorRecord $_ ; break
+            }
+        }
+    }
+}
