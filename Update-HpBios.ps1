@@ -73,4 +73,119 @@ FUNCTION Update-HpBios {
             }
         }
     }
+    Begin {
+        ############################### DO NOT CHANGE ########################################     
+        ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+        $computerModelName = $null
+        $pathComputerModel = $null
+        $pathBiosUpdateFile = $null
+        ############################### DO NOT CHANGE - END ########################################
+        ## Get computer model
+        $computerModelName = (Get-CimInstance -ClassName Cim_ComputerSystem).Model
+        $computerModelName = ($computerModelName).Trim("HP").Trim("Hewlett-Packard").Replace("35W", " ").Trim()
+        ## Get computer model path
+        $pathComputerModel = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$computerModelName* `
+                | Where-Object {$_.Attributes -eq "Directory"} | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
+        ## Get BIOS-update file
+        $pathBiosUpdateFile = (Get-ChildItem -Path $pathComputerModel -Recurse -Include *.cab, *.cab | Select-Object -First 1).FullName
+        
+        ## Create variables based on ExecutionType
+        switch ($ExecutionType) {
+            "SetPasswordAndCheckVersion" {
+                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+                $pathBiosVersionXml = $null
+                $pathBiosPassword = $null
+                ## Redefine dynamic parameters
+                $BiosVersionXmlName = $biosVersionXmlName.Value
+                $BiosPasswordFileName = $biosPasswordFileName.Value
+                ## Get BIOS-xml file
+                $pathBiosVersionXml = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosVersionXmlName* -Include *.xml | Select-Object -First 1).FullName
+                ## Get BIOS-password file
+                $pathBiosPassword = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName                
+            }
+            "NoPassword" {
+                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+                $pathBiosVersionXml = $null
+                ## Redefine dynamic parameters
+                $BiosVersionXmlName = $biosVersionXmlName.Value
+                ## Get BIOS-xml file
+                $pathBiosVersionXml = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosVersionXmlName* -Include *.xml | Select-Object -First 1).FullName
+            }
+            "NoVersionCheck" {
+                ## Spec variables that will be used in the script(do not change, these'll be defined later on)
+                $pathBiosPassword = $null
+                ## Redefine dynamic parameters
+                $BiosPasswordFileName = $biosPasswordFileName.Value
+                ## Get BIOS-password file
+                $pathBiosPassword = (Get-ChildItem -Path $PSScriptRoot -Recurse -Filter *$BiosPasswordFileName* -Include *.bin | Select-Object -First 1).FullName  
+            }
+        }
+
+        ####### FUNCTIONS
+        ## Write-Log
+        function Write-Log {
+            # Based on: https://janikvonrotz.ch/2017/10/26/powershell-logging-in-cmtrace-format/
+            [CmdletBinding()]
+            param (
+                [Parameter(Mandatory = $false, HelpMessage = "Specify log name")]
+                [ValidateNotNullOrEmpty()]
+                [string]$LogName = "BiosUpdate.log",
+                [Parameter(Mandatory = $true, HelpMessage = "Provide log message")]
+                [ValidateNotNullOrEmpty()]
+                [string]$Message,
+                [Parameter(Mandatory = $false, HelpMessage = "Specify message type")]
+                [ValidateSet('Information', 'Warning', 'Error')]
+                [string]$MessageType = 'Information'
+            )
+            begin {
+                ## Spec variables that will be used in the script(do not change, these'll be defined later on)0
+                $tsEnvironment = $null
+                $logDirectory = $null
+                $logFilePath = $null
+                $constructMessage = $null
+
+                ## LOG Variables
+                if (-not($DebugMode)) {
+                    $tsEnvironment = New-Object -ComObject Microsoft.SMS.TSEnvironment -ErrorAction Continue
+                    $logDirectory = $tsEnvironment.Value("_SMSTSLogPath")
+                }
+                else {
+                    $logDirectory = $PSScriptRoot
+                }
+                ## Manage message type
+                switch ($MessageType) {
+                    "Information" {
+                        [int]$MessageType = 1
+                        Write-Host -Object $Message
+                    }
+                    "Warning" {
+                        [int]$MessageType = 2
+                        Write-Host -Object $Message -BackgroundColor Yellow
+                    }
+                    "Error" {
+                        [int]$MessageType = 3
+                        Write-Host -Object $Message -BackgroundColor Red
+                    }
+                }
+                ## Generate log file path
+                $logFilePath = Join-Path -Path $logDirectory -ChildPath $LogName
+                ## Construct message
+                $constructMessage = "<![LOG[$Message]LOG]!>" + `
+                    "<time=`"$(Get-Date -Format "HH:mm:ss.ffffff")`" " + `
+                    "date=`"$(Get-Date -Format "M-d-yyyy")`" " + `
+                    "component=`"BiosConfiguration`" " + `
+                    "context=`"$([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)`" " + `
+                    "type=`"$Type`" " + `
+                    "thread=`"$([Threading.Thread]::CurrentThread.ManagedThreadId)`" " + `
+                    "file=`"`">"
+            }
+            process {
+                ## Append message to log file
+                Add-Content -Path $logFilePath -Value $constructMessage -Encoding UTF8 -ErrorAction SilentlyContinue
+            }
+        }
+        
+    }
 }
+
+Update-HpBios -ExecutionType NoPassowrdOrVersionCheck
