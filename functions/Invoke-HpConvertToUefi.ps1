@@ -1,10 +1,10 @@
-FUNCTION Set-HpBiosConfiguration {
+FUNCTION Invoke-HpConvertToUefi {
     <#
     .SYNOPSIS
-    Configure HP-BIOS
+    Convert HP-BIOS to UEFI
     
     .DESCRIPTION
-    This function'll configure HP-BIOS from .REPSET-file located in computer model folder
+    This function'll convert HP-BIOS to UEFI from .REPSET-file located in computer model folder
     
     .PARAMETER ApprovedExitCodes
     Specify approved exit codes
@@ -16,8 +16,8 @@ FUNCTION Set-HpBiosConfiguration {
     Specify during what scenario the function'll be used
     
     .EXAMPLE
-    Set-HpBiosConfiguration
-    Set-HpBiosConfiguration -ApprovedExitCodes @(0, 1, 5) -ExecutionScenario = OSD
+    Invoke-HpConvertToUefi
+    Invoke-HpConvertToUefi -ApprovedExitCodes @(0, 1, 5) -ExecutionScenario = OSD
     
     .NOTES
     Author:         Michal Kirejczyk
@@ -73,9 +73,9 @@ FUNCTION Set-HpBiosConfiguration {
         }
         try {
             # Get bios config file
-            Write-Log -Message "Attempting to get BIOS configuration file"
-            $biosConfigurationFile = Get-HpRequiredFiles -FileType BiosConfigurationFile -ErrorAction Stop
-            Write-Log -Message "Located BIOS configuration file, path: $biosConfigurationFile"
+            Write-Log -Message "Attempting to get BIOS to UEFI configuration file"
+            $biosConfigurationFile = Get-HpRequiredFiles -FileType ConvertToUefiFile -ErrorAction Stop
+            Write-Log -Message "Located BIOS to UEFI configuration file, path: $biosConfigurationFile"
             try {
                 # Get bios configuration utility
                 Write-Log -Message "Attempting to get BIOS configuration utility path"
@@ -88,7 +88,7 @@ FUNCTION Set-HpBiosConfiguration {
             }
         }
         catch {
-            Write-Log -Message "Failed to get BIOS configuration file path, line: $($_.InvocationInfo.ScriptLineNumber), exception: $($_.Exception.Message)" -MessageType Error
+            Write-Log -Message "Failed to get BIOS to UEFI configuration file path, line: $($_.InvocationInfo.ScriptLineNumber), exception: $($_.Exception.Message)" -MessageType Error
             Write-Error -ErrorRecord $_
         }
     }
@@ -112,8 +112,8 @@ FUNCTION Set-HpBiosConfiguration {
             }
         }
         try {
-            # Configure bios
-            Write-Log -Message "Attempting to execute BIOS Configuration Utility to configure BIOS"
+            # Convert bios to uefi
+            Write-Log -Message "Attempting to execute BIOS Configuration Utility to convert BIOS to UEFI"
             # Create arguments based on -NoBiosPassword
             if (-not($NoBiosPassword)) {
                 $arguments = "/set:`"$biosConfigurationFile`" /cpwdfile:`"$backupPassword`""
@@ -126,15 +126,15 @@ FUNCTION Set-HpBiosConfiguration {
             $process = Start-HpProcess -PathToExe $biosConfigurationUtility -Arguments $arguments -ErrorAction Stop
             # Check if exit code is approved
             if ($ApprovedExitCodes -contains $process.ExitCode) {
-                Write-Log -Message "Successfully configured BIOS, process exit code: $($process.ExitCode)"
+                Write-Log -Message "Successfully converted BIOS to UEFI, process exit code: $($process.ExitCode)"
                 return ($LASTEXITCODE = 0)
             }
             else {
-                throw "Failed to configure BIOS, exit code: $($process.ExitCode)!"
+                throw "Failed to convert BIOS to UEFI, exit code: $($process.ExitCode)!"
             }
         }
         catch {
-            Write-Log -Message "Failed to configure BIOS, line: $($_.InvocationInfo.ScriptLineNumber), exception: $($_.Exception.Message)" -MessageType Error
+            Write-Log -Message "Failed to convert BIOS to UEFI, line: $($_.InvocationInfo.ScriptLineNumber), exception: $($_.Exception.Message)" -MessageType Error
             Write-Error -ErrorRecord $_
         }
     }
