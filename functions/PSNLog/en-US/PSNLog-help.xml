@@ -1,0 +1,2484 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml" xmlns="http://msh">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Disable-NLogLogging</command:name>
+      <command:verb>Disable</command:verb>
+      <command:noun>NLogLogging</command:noun>
+      <maml:description>
+        <maml:para>Disables all logging.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Disable-NLogLogging Cmdlet disables all global logging.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Disable-NLogLogging</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Disable-NLogLogging</dev:code>
+        <dev:remarks>
+          <maml:para>Disable all logging</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Enable-NLogLogging</command:name>
+      <command:verb>Enable</command:verb>
+      <command:noun>NLogLogging</command:noun>
+      <maml:description>
+        <maml:para>Enables simple logging for trivial logging cases.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Enable-NLogLogging Cmdlet allows to quickly enable some simple logging for trivial logging cases.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Enable-NLogLogging</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="FilePath, FullName">
+          <maml:name>Filename</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Filename to write log messages to.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MinLevel">
+          <maml:name>MinimumLevel</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the minimum log level.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Debug</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Layout</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the log message layout used to write to the file target</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>${cmtrace}</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>DontRedirectMessages</maml:name>
+          <maml:Description>
+            <maml:para>Specifies, if Messages written to Write-Verbose/Write-Host/Write-Warning/Write-Error should be redirected to the logging Target automagically. If set, the following configuration will be applied Write-Verbose -&gt; Log message on 'Debug' level Write-Host -&gt; Log message on 'Info' level Write-Warning -&gt; Log message on 'Warning' level Write-Error -&gt; Log message on 'Error' level</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Enable-NLogLogging</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
+          <maml:name>Target</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Target to write log messages to.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Target</command:parameterValue>
+          <dev:type>
+            <maml:name>Target</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MinLevel">
+          <maml:name>MinimumLevel</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the minimum log level.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>Debug</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>DontRedirectMessages</maml:name>
+          <maml:Description>
+            <maml:para>Specifies, if Messages written to Write-Verbose/Write-Host/Write-Warning/Write-Error should be redirected to the logging Target automagically. If set, the following configuration will be applied Write-Verbose -&gt; Log message on 'Debug' level Write-Host -&gt; Log message on 'Info' level Write-Warning -&gt; Log message on 'Warning' level Write-Error -&gt; Log message on 'Error' level</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="FilePath, FullName">
+        <maml:name>Filename</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the Filename to write log messages to.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="named" aliases="none">
+        <maml:name>Target</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the Target to write log messages to.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Target</command:parameterValue>
+        <dev:type>
+          <maml:name>Target</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MinLevel">
+        <maml:name>MinimumLevel</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the minimum log level.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>Debug</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Layout</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the log message layout used to write to the file target</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>${cmtrace}</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>DontRedirectMessages</maml:name>
+        <maml:Description>
+          <maml:para>Specifies, if Messages written to Write-Verbose/Write-Host/Write-Warning/Write-Error should be redirected to the logging Target automagically. If set, the following configuration will be applied Write-Verbose -&gt; Log message on 'Debug' level Write-Host -&gt; Log message on 'Info' level Write-Warning -&gt; Log message on 'Warning' level Write-Error -&gt; Log message on 'Error' level</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Enable-NLogLogging -FilePath 'C:\Temp\MyLogging.log'</dev:code>
+        <dev:remarks>
+          <maml:para>Quickly configure NLog so that all messages above and including the Debug level are written to a file. It automatically logs all existing Write-Verbose messages to Debug, Write-Host to Info, Write-Warning to Warn and Write-Error to Error.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Enable-NLogLogging -FilePath 'C:\Temp\MyLogging.log' -MinimumLevel Warn -DontRedirectMessages</dev:code>
+        <dev:remarks>
+          <maml:para>Quickly configure NLog so that all messages above and including the Warn level are written to a file. But it does not redirect the calls to Write-Verbose, Write-Host, Write-Warning or Write-Error.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>$Target = New-NLogTarget -Name 'Warnings' -FileTarget</dev:code>
+        <dev:remarks>
+          <maml:para>PS C:\&gt;$Target.Filename = 'C:\Temp\MyLogging.log' PS C:\&gt;$Target.CreateDirs = $true PS C:\&gt;Enable-NLogLogging -Target $Target -MinLevel Warn</maml:para>
+          <maml:para>Quickly configure NLog so that all messages above and including the Warn level are written to target.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-NLogConfiguration</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>NLogConfiguration</command:noun>
+      <maml:description>
+        <maml:para>Returns the current NLog configuration.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-NLogConfiguration Cmdlet returns the current NLog configuration. If there is no current configuration yet, a new LoggingConfiguration will be returned.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-NLogConfiguration</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Config.LoggingConfiguration</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$Config = Get-NLogConfiguration</dev:code>
+        <dev:remarks>
+          <maml:para>Get the current logging configuration</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-NLogLogger</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>NLogLogger</command:noun>
+      <maml:description>
+        <maml:para>Gets a NLog Logger instance</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Get-NLogLogger Cmdlet gets the specified NLog logger. On default, the LoggerName will have the name of the calling PowerShell CmdLet\Function.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-NLogLogger</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>LoggerName</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the name of the NLog logger</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>(Get-PSCallStack)[1].Command</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>LoggerName</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the name of the NLog logger</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>(Get-PSCallStack)[1].Command</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Logger</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$Logger = Get-NLogLogger</dev:code>
+        <dev:remarks>
+          <maml:para>Get a default NLog logger instance</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>$Logger = Get-NLogLogger -LoggerName 'MyNlogLogger'</dev:code>
+        <dev:remarks>
+          <maml:para>Get a NLog logger instance with a specific name</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-NLogFileTarget</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>NLogFileTarget</command:noun>
+      <maml:description>
+        <maml:para>Creates a new NLog file logging target.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The New-NLogFileTarget Cmdlet returns a new NLog file logging target. In addition to creating a FileTarget using the New-NLogTarget CmdLet, this CmdLet allows to supply common parameters.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-NLogFileTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>FileName</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the name and path to write to. This FileName string is a layout which may include instances of layout renderers. This lets you use a single target to write to multiple files. The following value makes NLog write logging events to files based on the log level in the directory where the script runs. ${env:scriptroot}/${level}.log All Debug messages will go to Debug.log, all Info messages will go to Info.log and so on. You can combine as many of the layout renderers as you want to produce an arbitrary log file name. If no filename is supplied, the name of the calling script will be used and written to the current users %Temp% directory. if not called from a script, the name will default to 'PSNLog'</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Layout</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the layout that is used to render the log message</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ArchiveFileName</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the name of the file to be used for an archive. It may contain a special placeholder {#####} that will be replaced with a sequence of numbers depending on the archiving strategy. The number of hash characters used determines the number of numerical digits to be used for numbering files. warning when deleting archives files is enabled (e.g. maxArchiveFiles ), the folder of the archives should different than the log files.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ArchiveNumbering</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the way archives are numbered. Possible values: - Rolling  - Rolling style numbering (the most recent is always #0 then #1, ..., #N).</maml:para>
+            <maml:para>- Sequence - Sequence style numbering.</maml:para>
+            <maml:para>The most recent archive has the highest number. - Date     - Date style numbering. The date is formatted according to the value of archiveDateFormat.              Warning: combining this mode with archiveAboveSize is not supported. Archive files are not merged. - DateAndSequence - Combination of Date and Sequence .Archives will be stamped with the prior period                     (Year, Month, Day) datetime. The most recent archive has the highest number                     (in combination with the date). The date is formatted according to the value of archiveDateFormat.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ArchiveDateFormat</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the date format used for archive numbering. Default format depends on the archive period. This option works only when the "ArchiveNumbering" parameter is set to Date or DateAndSequence</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ArchiveEvery</maml:name>
+          <maml:Description>
+            <maml:para>Specifies wheter to automatically archive log files every time the specified time passes. Possible values are: Day - Archive daily. Hour - Archive every hour. Minute - Archive every minute. Month - Archive every month. None - Don't archive based on time. Year - Archive every year. Sunday - Archive every Sunday. Introduced in NLog 4.4.4. Monday - Archive every Monday. Introduced in NLog 4.4.4. Tuesday - Archive every Tuesday. Introduced in NLog 4.4.4. Wednesday - Archive every Wednesday. Introduced in NLog 4.4.4. Thursday - Archive every Thursday. Introduced in NLog 4.4.4. Friday - Archive every Friday. Introduced in NLog 4.4.4. Saturday - Archive every Saturday. Introduced in NLog 4.4.4.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>MaxArchiveFiles</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the maximum number of archive files that should be kept. If MaxArchiveFiles is less or equal to 0, old files aren't deleted</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+          <dev:type>
+            <maml:name>Int32</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>0</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>EnableArchiveFileCompression</maml:name>
+          <maml:Description>
+            <maml:para>Specifies whether to compress the archive files into the zip files.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Name</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>FileName</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the name and path to write to. This FileName string is a layout which may include instances of layout renderers. This lets you use a single target to write to multiple files. The following value makes NLog write logging events to files based on the log level in the directory where the script runs. ${env:scriptroot}/${level}.log All Debug messages will go to Debug.log, all Info messages will go to Info.log and so on. You can combine as many of the layout renderers as you want to produce an arbitrary log file name. If no filename is supplied, the name of the calling script will be used and written to the current users %Temp% directory. if not called from a script, the name will default to 'PSNLog'</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Layout</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the layout that is used to render the log message</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ArchiveFileName</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the name of the file to be used for an archive. It may contain a special placeholder {#####} that will be replaced with a sequence of numbers depending on the archiving strategy. The number of hash characters used determines the number of numerical digits to be used for numbering files. warning when deleting archives files is enabled (e.g. maxArchiveFiles ), the folder of the archives should different than the log files.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ArchiveNumbering</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the way archives are numbered. Possible values: - Rolling  - Rolling style numbering (the most recent is always #0 then #1, ..., #N).</maml:para>
+          <maml:para>- Sequence - Sequence style numbering.</maml:para>
+          <maml:para>The most recent archive has the highest number. - Date     - Date style numbering. The date is formatted according to the value of archiveDateFormat.              Warning: combining this mode with archiveAboveSize is not supported. Archive files are not merged. - DateAndSequence - Combination of Date and Sequence .Archives will be stamped with the prior period                     (Year, Month, Day) datetime. The most recent archive has the highest number                     (in combination with the date). The date is formatted according to the value of archiveDateFormat.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ArchiveDateFormat</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the date format used for archive numbering. Default format depends on the archive period. This option works only when the "ArchiveNumbering" parameter is set to Date or DateAndSequence</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ArchiveEvery</maml:name>
+        <maml:Description>
+          <maml:para>Specifies wheter to automatically archive log files every time the specified time passes. Possible values are: Day - Archive daily. Hour - Archive every hour. Minute - Archive every minute. Month - Archive every month. None - Don't archive based on time. Year - Archive every year. Sunday - Archive every Sunday. Introduced in NLog 4.4.4. Monday - Archive every Monday. Introduced in NLog 4.4.4. Tuesday - Archive every Tuesday. Introduced in NLog 4.4.4. Wednesday - Archive every Wednesday. Introduced in NLog 4.4.4. Thursday - Archive every Thursday. Introduced in NLog 4.4.4. Friday - Archive every Friday. Introduced in NLog 4.4.4. Saturday - Archive every Saturday. Introduced in NLog 4.4.4.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>MaxArchiveFiles</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the maximum number of archive files that should be kept. If MaxArchiveFiles is less or equal to 0, old files aren't deleted</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Int32</command:parameterValue>
+        <dev:type>
+          <maml:name>Int32</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>0</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>EnableArchiveFileCompression</maml:name>
+        <maml:Description>
+          <maml:para>Specifies whether to compress the archive files into the zip files.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Targets.FileTarget</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>The New-NlogFileTarget CmdLet does not support all properties supported by the native NLog FileTarget. However those properties can be changed/added later on the returned object.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$FileTarget = New-NLogFileTarget -Name 'f1' -Filename 'C:\Temp\MyLog.log'</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new file target, that writes log messages to the file C:\Temp\MyLog.log.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>$FileTarget = New-NLogFileTarget -Name 'f1' -Filename 'C:\Temp\MyLog.log' -Layout '${cmtrace}'</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new file target, that writes log messages to the file C:\Temp\MyLog.log using the CMTrace Layout renderer.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 3 --------------------------</maml:title>
+        <dev:code>$FileTarget = New-NLogFileTarget -Name 'f1' -Filename '${env:scriptroot}/${level}.log'</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a new file target, that writes log messages to a log file that corresponds to the log level.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 4 --------------------------</maml:title>
+        <dev:code>$FileTarget = New-NLogFileTarget -Name 'f1' `</dev:code>
+        <dev:remarks>
+          <maml:para>-Filename 'C:\Temp\MyLog.log' `                                         -ArchiveFileName 'C:\Temp\MyLog.{#}.log' `                                         -ArchiveNumbering Date `                                         -ArchiveEvery Day `                                         -MaxArchiveFiles 14 `                                         -ArchiveDateFormat 'yyyyMMdd'                                         -EnableArchiveFileCompression</maml:para>
+          <maml:para></maml:para>
+          <maml:para>Creates a new file target, that writes log messages to the file C:\Temp\MyLog.log and archives the compressed log file every day into a subfolder 'archive'. All archived files older than 14 days will be removed.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-NLogRule</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>NLogRule</command:noun>
+      <maml:description>
+        <maml:para>Creates a new NLog logging rule.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The New-NLogRule Cmdlet returns a new NLog logging rule.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-NLogRule</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>LoggerNamePattern</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Logger name pattern It may include the '*' wildcard at the beginning, at the end or at both ends.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>*</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Disabled</maml:name>
+          <maml:Description>
+            <maml:para>Specifies if the rule should be disabled by default.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Target</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the target to be written to when the rule matches.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Target</command:parameterValue>
+          <dev:type>
+            <maml:name>Target</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogRule</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>LoggerNamePattern</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Logger name pattern It may include the '*' wildcard at the beginning, at the end or at both ends.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>*</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MinLevel">
+          <maml:name>MinimumLevel</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the minimum log level needed to trigger this rule.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Target</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the target to be written to when the rule matches.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Target</command:parameterValue>
+          <dev:type>
+            <maml:name>Target</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogRule</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>LoggerNamePattern</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Logger name pattern It may include the '*' wildcard at the beginning, at the end or at both ends.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>*</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MinLevel">
+          <maml:name>MinimumLevel</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the minimum log level needed to trigger this rule.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MaxLevel">
+          <maml:name>MaximumLevel</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the maximum log level needed to trigger this rule.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Target</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the target to be written to when the rule matches.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Target</command:parameterValue>
+          <dev:type>
+            <maml:name>Target</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>LoggerNamePattern</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the Logger name pattern It may include the '*' wildcard at the beginning, at the end or at both ends.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>*</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Disabled</maml:name>
+        <maml:Description>
+          <maml:para>Specifies if the rule should be disabled by default.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MinLevel">
+        <maml:name>MinimumLevel</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the minimum log level needed to trigger this rule.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="MaxLevel">
+        <maml:name>MaximumLevel</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the maximum log level needed to trigger this rule.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Target</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the target to be written to when the rule matches.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Target</command:parameterValue>
+        <dev:type>
+          <maml:name>Target</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Config.LoggingRule</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$Rule = New-NLogRule -MinimumLevel Info -Target $FileTarget</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new rule to log all messages above and including the Info level.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>$Rule = New-NLogRule -MinimumLevel Warn -MaximumLevel Warn -Target $FileTarget</dev:code>
+        <dev:remarks>
+          <maml:para>Create a new rule to log all Warn level messages.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-NLogTarget</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>NLogTarget</command:noun>
+      <maml:description>
+        <maml:para>Creates a new NLog logging target.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The New-NLogTarget Cmdlet returns a new NLog logging target.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>TargetType</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the type name of the target. Can be used to create targets not explicitly covered by any switch</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NullTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new NullTarget NullTargets discards any log messages. Used mainly for debugging and benchmarking.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ConsoleTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new ConsoleTarget Writes log messages to the console.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>DatabaseTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new DatabaseTarget Writes log messages to the database using an ADO.NET provider.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>DebugTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new DebugTarget Mock target - useful for testing.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>EventLogTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new EventLogTarget Writes log message to the Event Log.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FileTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new FileTarget Writes log messages to one or more files.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>MailTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new MailTarget Sends log messages by email using SMTP protocol.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>MemoryTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new MemoryTarget Writes log messages to an ArrayList in memory for programmatic retrieval.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NetworkTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new NetworkTarget Sends log messages over the network.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NLogViewerTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new NLogViewerTarget Sends log messages to the remote instance of NLog Viewer.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PerformanceCounterTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new PerformanceCounterTarget Increments specified performance counter on each write.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>New-NLogTarget</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Name</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>WebServiceTarget</maml:name>
+          <maml:Description>
+            <maml:para>Specifies to create a new WebServiceTarget Calls the specified web service on each log message.</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Name</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the Name of the target If no name is supplied, a random string will be used</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>TargetType</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the type name of the target. Can be used to create targets not explicitly covered by any switch</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NullTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new NullTarget NullTargets discards any log messages. Used mainly for debugging and benchmarking.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ConsoleTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new ConsoleTarget Writes log messages to the console.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>DatabaseTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new DatabaseTarget Writes log messages to the database using an ADO.NET provider.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>DebugTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new DebugTarget Mock target - useful for testing.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>EventLogTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new EventLogTarget Writes log message to the Event Log.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FileTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new FileTarget Writes log messages to one or more files.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>MailTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new MailTarget Sends log messages by email using SMTP protocol.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>MemoryTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new MemoryTarget Writes log messages to an ArrayList in memory for programmatic retrieval.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NetworkTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new NetworkTarget Sends log messages over the network.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NLogViewerTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new NLogViewerTarget Sends log messages to the remote instance of NLog Viewer.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PerformanceCounterTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new PerformanceCounterTarget Increments specified performance counter on each write.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>WebServiceTarget</maml:name>
+        <maml:Description>
+          <maml:para>Specifies to create a new WebServiceTarget Calls the specified web service on each log message.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Targets.Target</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$FileTarget = New-NLogTarget -Name 'AllWarnings' -FileTarget</dev:code>
+        <dev:remarks>
+          <maml:para>PS C:\&gt;$FileTarget.FileName = 'C:\Temp\AllWarnings.log'</maml:para>
+          <maml:para>Create a new file target</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Read-NLogConfiguration</command:name>
+      <command:verb>Read</command:verb>
+      <command:noun>NLogConfiguration</command:noun>
+      <maml:description>
+        <maml:para>Returns a NLog configuration based on a configuration file.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Read-NLogConfiguration Cmdlet returns the specified NLog logging configuration</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Read-NLogConfiguration</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="FullName">
+          <maml:name>Filename</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the name and path to the NLog configuration file</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByPropertyName, ByValue)" position="1" aliases="FullName">
+        <maml:name>Filename</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the name and path to the NLog configuration file</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Config.LoggingConfiguration</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$Config = Read-NLogConfiguration '.\Sample.config'</dev:code>
+        <dev:remarks>
+          <maml:para>Read configuration from config file</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Read-NLogConfiguration '.\Sample.config' | Set-NLogConfiguration</dev:code>
+        <dev:remarks>
+          <maml:para>Read configuration from config file and set as configuration for all logging.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-NLogConfiguration</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>NLogConfiguration</command:noun>
+      <maml:description>
+        <maml:para>Sets the NLog logging configuration.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Set-NLogConfiguration Cmdlet sets the logging configuration.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-NLogConfiguration</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>Configuration</maml:name>
+          <maml:Description>
+            <maml:para>Specifies the NLog configuration</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">LoggingConfiguration</command:parameterValue>
+          <dev:type>
+            <maml:name>LoggingConfiguration</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>Configuration</maml:name>
+        <maml:Description>
+          <maml:para>Specifies the NLog configuration</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">LoggingConfiguration</command:parameterValue>
+        <dev:type>
+          <maml:name>LoggingConfiguration</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>NLog.Config.LoggingConfiguration</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>Read-NLogConfiguration '.\Sample.config' | Set-NLogConfiguration</dev:code>
+        <dev:remarks>
+          <maml:para>Set new logging configuration from configuration file.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Test-NLogLogging</command:name>
+      <command:verb>Test</command:verb>
+      <command:noun>NLogLogging</command:noun>
+      <maml:description>
+        <maml:para>Verifies if logging is enabled.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>The Test-NLogLogging Cmdlet verifies if logging is enabled. Returns $true if enabled. $false if not.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Test-NLogLogging</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>$Enabled = Test-NLogLogging</dev:code>
+        <dev:remarks>
+          <maml:para>Test if logging is currently enabled</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Write-NLogError</command:name>
+      <command:verb>Write</command:verb>
+      <command:noun>NLogError</command:noun>
+      <maml:description>
+        <maml:para>Writes a message on 'Error' log leve and to the Error Message stream.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Writes a message on 'Error' log leve and to the Error Message stream. Can be used to override the native Write-Error CmdLet.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Write-NLogError</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Exception</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Exception Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Exception</command:parameterValue>
+          <dev:type>
+            <maml:name>Exception</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Msg">
+          <maml:name>Message</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Message Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Category</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Category Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">NotSpecified</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">OpenError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CloseError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DeviceError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DeadlockDetected</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidArgument</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidData</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidOperation</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidResult</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidType</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">MetadataError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">NotImplemented</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">NotInstalled</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ObjectNotFound</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">OperationStopped</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">OperationTimeout</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SyntaxError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ParserError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">PermissionDenied</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ResourceBusy</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ResourceExists</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ResourceUnavailable</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ReadError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">WriteError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">FromStdErr</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SecurityError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ProtocolError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ConnectionError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">AuthenticationError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">LimitsExceeded</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">QuotaExceeded</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">NotEnabled</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">ErrorCategory</command:parameterValue>
+          <dev:type>
+            <maml:name>ErrorCategory</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ErrorId</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill ErrorId Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>TargetObject</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill TargetObject Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>RecommendedAction</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill RecommendedAction Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Activity">
+          <maml:name>CategoryActivity</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryActivity Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Reason">
+          <maml:name>CategoryReason</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryReason Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetName">
+          <maml:name>CategoryTargetName</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryTargetName Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetType">
+          <maml:name>CategoryTargetType</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryTargetType Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Write-NLogError</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Msg">
+          <maml:name>Message</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Message Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Category</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Category Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">NotSpecified</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">OpenError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">CloseError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DeviceError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DeadlockDetected</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidArgument</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidData</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidOperation</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidResult</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">InvalidType</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">MetadataError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">NotImplemented</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">NotInstalled</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ObjectNotFound</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">OperationStopped</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">OperationTimeout</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SyntaxError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ParserError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">PermissionDenied</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ResourceBusy</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ResourceExists</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ResourceUnavailable</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ReadError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">WriteError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">FromStdErr</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SecurityError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ProtocolError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">ConnectionError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">AuthenticationError</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">LimitsExceeded</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">QuotaExceeded</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">NotEnabled</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">ErrorCategory</command:parameterValue>
+          <dev:type>
+            <maml:name>ErrorCategory</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ErrorId</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill ErrorId Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>TargetObject</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill TargetObject Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>RecommendedAction</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill RecommendedAction Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Activity">
+          <maml:name>CategoryActivity</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryActivity Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Reason">
+          <maml:name>CategoryReason</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryReason Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetName">
+          <maml:name>CategoryTargetName</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryTargetName Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetType">
+          <maml:name>CategoryTargetType</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryTargetType Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Write-NLogError</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ErrorRecord</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill ErrorRecord Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">ErrorRecord</command:parameterValue>
+          <dev:type>
+            <maml:name>ErrorRecord</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>RecommendedAction</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill RecommendedAction Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Activity">
+          <maml:name>CategoryActivity</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryActivity Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Reason">
+          <maml:name>CategoryReason</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryReason Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetName">
+          <maml:name>CategoryTargetName</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryTargetName Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetType">
+          <maml:name>CategoryTargetType</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill CategoryTargetType Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Exception</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Exception Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Exception</command:parameterValue>
+        <dev:type>
+          <maml:name>Exception</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Msg">
+        <maml:name>Message</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Message Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ErrorRecord</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill ErrorRecord Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">ErrorRecord</command:parameterValue>
+        <dev:type>
+          <maml:name>ErrorRecord</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Category</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Category Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">ErrorCategory</command:parameterValue>
+        <dev:type>
+          <maml:name>ErrorCategory</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ErrorId</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill ErrorId Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>TargetObject</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill TargetObject Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>RecommendedAction</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill RecommendedAction Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Activity">
+        <maml:name>CategoryActivity</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill CategoryActivity Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="Reason">
+        <maml:name>CategoryReason</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill CategoryReason Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetName">
+        <maml:name>CategoryTargetName</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill CategoryTargetName Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="TargetType">
+        <maml:name>CategoryTargetType</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill CategoryTargetType Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Write-NLogHost</command:name>
+      <command:verb>Write</command:verb>
+      <command:noun>NLogHost</command:noun>
+      <maml:description>
+        <maml:para>Writes a message on 'Info' log level and to the Host.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Writes a message on 'Info' log level and to the Host. Can be used to override the native Write-Host CmdLet.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Write-NLogHost</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Object</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Object Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>NoNewline</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill NoNewline Description}}</maml:para>
+          </maml:Description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Separator</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Separator Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ForegroundColor</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill ForegroundColor Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">Black</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkBlue</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkGreen</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkCyan</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkRed</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkMagenta</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkYellow</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Gray</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkGray</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Blue</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Green</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Cyan</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Red</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Magenta</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Yellow</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">White</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">ConsoleColor</command:parameterValue>
+          <dev:type>
+            <maml:name>ConsoleColor</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>BackgroundColor</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill BackgroundColor Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">Black</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkBlue</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkGreen</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkCyan</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkRed</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkMagenta</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkYellow</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Gray</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">DarkGray</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Blue</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Green</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Cyan</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Red</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Magenta</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Yellow</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">White</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">ConsoleColor</command:parameterValue>
+          <dev:type>
+            <maml:name>ConsoleColor</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Object</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Object Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>NoNewline</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill NoNewline Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Separator</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Separator Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ForegroundColor</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill ForegroundColor Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">ConsoleColor</command:parameterValue>
+        <dev:type>
+          <maml:name>ConsoleColor</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>BackgroundColor</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill BackgroundColor Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">ConsoleColor</command:parameterValue>
+        <dev:type>
+          <maml:name>ConsoleColor</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Write-NLogVerbose</command:name>
+      <command:verb>Write</command:verb>
+      <command:noun>NLogVerbose</command:noun>
+      <maml:description>
+        <maml:para>Writes a message on 'Debug' log level and to the Verbose Message stream.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Writes a message on 'Debug' log level and to the Verbose Message stream. Can be used to override the native Write-Verbose CmdLet.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Write-NLogVerbose</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="Msg">
+          <maml:name>Message</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Message Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="Msg">
+        <maml:name>Message</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Message Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Write-NLogWarning</command:name>
+      <command:verb>Write</command:verb>
+      <command:noun>NLogWarning</command:noun>
+      <maml:description>
+        <maml:para>Writes a message on 'Warn' log level and to the Warning Message stream.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>Writes a message on 'Warn' log level and to the Warning Message stream. Can be used to override the native Write-Warning CmdLet.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Write-NLogWarning</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="Msg">
+          <maml:name>Message</maml:name>
+          <maml:Description>
+            <maml:para>{{Fill Message Description}}</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="Msg">
+        <maml:name>Message</maml:name>
+        <maml:Description>
+          <maml:para>{{Fill Message Description}}</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Add example code here }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Add example description here }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+</helpItems>
